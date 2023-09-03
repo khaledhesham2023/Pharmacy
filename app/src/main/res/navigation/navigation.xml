@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/categoriesFragment">
+
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.categories.CategoriesFragment"
+        android:label="@string/categories"
+        tools:layout="@layout/fragment_categories"/>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.account.AccountFragment"
+        android:label="@string/my_account"
+        tools:layout="@layout/fragment_account">
+        <action
+            android:id="@+id/action_accountFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bagFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.bag.BagFragment"
+        android:label="@string/bag"
+        tools:layout="@layout/fragment_bag"/>
+    <fragment
+        android:id="@+id/addressesFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.addresses.AddressesFragment"
+        android:label="@string/my_addresses"
+        tools:layout="@layout/fragment_addresses">
+        <action
+            android:id="@+id/action_addressesFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.map.MapsFragment"
+        android:label="@string/map"
+        tools:layout="@layout/fragment_maps" />
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.addresses.AddAddressFragment"
+        android:label="@string/add_new_address"
+        tools:layout="@layout/fragment_add_address">
+        <action
+            android:id="@+id/action_addAddressFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+</navigation>
