@@ -11,6 +11,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.khaledamin.pharmacy_android.R
@@ -41,7 +44,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val long = -122.084270
         val homeLatLng = LatLng(lat, long)
         val zoomLevel = Constants.STREET_VIEW
-        map.addMarker(MarkerOptions().position(homeLatLng).title("Marker in Sydney"))
+        map.addMarker(MarkerOptions().position(homeLatLng).title("Marker in Sydney").icon(BitmapDescriptorFactory.defaultMarker(
+            HUE_AZURE)))
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
         setOnLongClickListener(map)
         setPoiClickListener(map)
@@ -57,7 +61,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             )
             googleMap.addMarker(
                 MarkerOptions().position(it)
-                    .title(getString(R.string.dropped_pin)).snippet(snippet)
+                    .title(getString(R.string.dropped_pin)).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(
+                        HUE_AZURE))
             )
             googleMap.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
@@ -79,7 +84,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 it.latLng.longitude
             )
             val poiMarker = googleMap.addMarker(
-                MarkerOptions().position(it.latLng).title(it.name).snippet(snippet)
+                MarkerOptions().position(it.latLng).title(it.name).snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(
+                    HUE_AZURE))
             )
             poiMarker!!.showInfoWindow()
         }
