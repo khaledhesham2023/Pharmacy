@@ -14,6 +14,8 @@ object Constants {
     const val ONE_MINUTE = 60L
     const val ONE_SECOND = 1L
     const val REQUEST_LOCATION_PERMISSION = 1
+    const val REQUEST_FOREGROUND_AND_BACKGROUND_LOCATION_PERMISSIONS = 2
+    const val REQUEST_FOREGROUND_LOCATION_PERMISSION = 3
     const val WORLD_VIEW = 1f
     const val CONTINENT_VIEW = 5f
     const val CITY_VIEW = 10f
