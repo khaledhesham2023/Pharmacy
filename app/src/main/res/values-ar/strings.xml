@@ -93,5 +93,6 @@
     <string name="dropped_pin">تحديد هذه المنطقة</string>
     <string name="poi">المنطقة المحددة</string>
     <string name="select_this_address">تحديد هذا العنوان</string>
+    <string name="search_for_address">Search for Address</string>
 
 </resources>

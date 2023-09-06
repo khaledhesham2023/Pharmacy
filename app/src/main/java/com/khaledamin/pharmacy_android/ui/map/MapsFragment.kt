@@ -17,8 +17,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
@@ -56,25 +58,50 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
     private lateinit var map: GoogleMap
     private var latitude: Double? = 0.0
     private var longitude: Double? = 0.0
+    private lateinit var reverseGeocoder: Geocoder
     private lateinit var geocoder: Geocoder
+    private lateinit var mapFragment: SupportMapFragment
     override val viewModelClass: Class<MapsViewModel>
         get() = MapsViewModel::class.java
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("MAPS","onViewCreated()")
+        Log.i("MAPS", "onViewCreated()")
         // Initializing Places using API Key
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), Constants.API_KEY)
-            Log.i("MAPS","onViewCreated() Places initialized")
+            Log.i("MAPS", "onViewCreated() Places initialized")
         }
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(this)
+        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
     }
 
     override fun setupListeners() {
-//        TODO("Not yet implemented")
+        viewBinding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                var location = query.toString()
+                var addresses: List<Address>? = null
+                if (location != null){
+                    geocoder = Geocoder(requireContext())
+                    try {
+                        addresses = geocoder.getFromLocationName(location,1)
+                    } catch (exception:Exception){
+
+                    }
+                }
+                val searchedAddress:Address = addresses!![0]
+                var latLng = LatLng(searchedAddress.latitude,searchedAddress.longitude)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,Constants.STREET_VIEW))
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+//                TODO("Not yet implemented")
+                return true
+            }
+
+        })
     }
 
     override fun setupObservers() {
@@ -85,12 +112,12 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
         get() = R.layout.fragment_maps
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.i("MAPS","onMapsReady() started")
+        Log.i("MAPS", "onMapsReady() started")
         map = googleMap
         val cairo = LatLng(30.04670384770477, 31.23408763555915)
         val zoomLevel = Constants.STREET_VIEW
         // Initializing Geocoder
-        geocoder = Geocoder(requireContext(), Locale.getDefault())
+        reverseGeocoder = Geocoder(requireContext(), Locale.getDefault())
 //        map.addMarker(
 //            MarkerOptions().position(cairo).title("Marker in Cairo").icon(
 //                BitmapDescriptorFactory.defaultMarker(
@@ -103,61 +130,55 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
             latitude = map.cameraPosition.target.latitude
             longitude = map.cameraPosition.target.longitude
 
-        var addressName = ""
-        // Reverse Geocoding
-        try {
-            val addressList: List<Address> =
-                geocoder.getFromLocation(latitude!!, longitude!!, 1) as List<Address>
-            if (addressList.isNotEmpty() || addressList != null) {
-                val address = addressList[0]
-                val stringBuilder = StringBuilder()
+            var addressName = ""
+            // Reverse Geocoding
+            try {
+                val addressList: List<Address> =
+                    reverseGeocoder.getFromLocation(latitude!!, longitude!!, 1) as List<Address>
+                if (addressList.isNotEmpty() || addressList != null) {
+                    val address = addressList[0]
+                    val stringBuilder = StringBuilder()
 //                for (i in 0 .. address.maxAddressLineIndex) {
 //                    stringBuilder.append(address.getAddressLine(i)).append("\n")
 //                }
-                // Various Parameters of an Address are appended
-                // to generate a complete Address
-                if (address.premises != null) {
-                    stringBuilder.append(address.premises).append(", ")
+                    // Various Parameters of an Address are appended
+                    // to generate a complete Address
+                    if (address.premises != null) {
+                        stringBuilder.append(address.premises).append(", ")
+                    }
+                    stringBuilder.append(address.featureName).append("\n")
+                        .append(address.locality).append(", ")
+                        .append(address.adminArea).append(", ")
+                        .append(address.countryName).append(", ")
+                        .append(address.postalCode)
+                    addressName = stringBuilder.toString()
+
                 }
-                stringBuilder.append(address.subAdminArea).append("\n")
-                    .append(address.locality).append(", ")
-                    .append(address.adminArea).append(", ")
-                    .append(address.countryName)
-                addressName = stringBuilder.toString()
-
+            } catch (exception: IOException) {
+                Toast.makeText(
+                    requireContext(),
+                    "Unable to connect to Geocoder",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        } catch (exception: IOException) {
-            Toast.makeText(requireContext(), "Unable to connect to Geocoder", Toast.LENGTH_SHORT).show()
+
+            viewBinding.title.text = addressName
         }
-
-            viewBinding.title.text = "Lat: $latitude \nLong: $longitude \nAddress: $addressName"
-            }
 //        setOnMapLongClick(map)
         setOnPoiClick(map)
+        setOnMapLongClick(map)
         enableMyLocation()
-        Log.i("MAPS","onMapReady() ended")
+        Log.i("MAPS", "onMapReady() ended")
     }
 
-//    private fun setOnMapLongClick(googleMap: GoogleMap) {
-//        googleMap.setOnMapLongClickListener {
-//            val snippet = String.format(
-//                Locale.getDefault(),
-//                getString(R.string.lat_long_snippet, it.latitude, it.longitude)
-//            )
-//            googleMap.addMarker(
-//                MarkerOptions().position(it).title(getString(R.string.dropped_pin)).snippet(snippet)
-//                    .icon(
-//                        BitmapDescriptorFactory.defaultMarker(
-//                            HUE_AZURE
-//                        )
-//                    )
-//            )
-//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(it, Constants.STREET_VIEW))
-//        }
-//    }
+    private fun setOnMapLongClick(googleMap: GoogleMap) {
+        googleMap.setOnMapLongClickListener {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(it, Constants.STREET_VIEW))
+        }
+    }
 
     private fun setOnPoiClick(googleMap: GoogleMap) {
-        Log.i("MAPS","setOnPoiClick() called")
+        Log.i("MAPS", "setOnPoiClick() called")
         googleMap.setOnPoiClickListener {
 //            val snippet = String.format(
 //                Locale.getDefault(),
@@ -171,7 +192,14 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
 //                )
 //            )
 //            poiMarker!!.showInfoWindow()
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latLng.latitude,it.latLng.longitude),Constants.STREET_VIEW))
+            googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        it.latLng.latitude,
+                        it.latLng.longitude
+                    ), Constants.STREET_VIEW
+                )
+            )
         }
     }
 
@@ -183,10 +211,10 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 Constants.REQUEST_FINE_LOCATION_PERMISSION
             )
-            Log.i("MAPS","No Permissions Granted")
+            Log.i("MAPS", "No Permissions Granted")
         } else {
             map.isMyLocationEnabled = true
-            Log.i("MAPS","enableMyLocation() permission granted")
+            Log.i("MAPS", "enableMyLocation() permission granted")
 
         }
     }
