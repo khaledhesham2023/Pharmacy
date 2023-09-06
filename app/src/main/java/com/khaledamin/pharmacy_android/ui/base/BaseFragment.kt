@@ -21,7 +21,7 @@ abstract class BaseFragment<VB: ViewDataBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = DataBindingUtil.inflate(LayoutInflater.from(requireContext()),layout,container,false)
+        viewBinding = DataBindingUtil.inflate(inflater,layout,container,false)
         loadingDialog = LoadingDialog(requireContext())
         return viewBinding.root
     }

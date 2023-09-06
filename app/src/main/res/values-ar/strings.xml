@@ -92,6 +92,6 @@
     <string name="lat_long_snippet">عرض: %1$.5f, طول: %2$.5f</string>
     <string name="dropped_pin">تحديد هذه المنطقة</string>
     <string name="poi">المنطقة المحددة</string>
-    <string name="permission_denied_explanation">App must access your location to proceed</string>
+    <string name="select_this_address">تحديد هذا العنوان</string>
 
 </resources>

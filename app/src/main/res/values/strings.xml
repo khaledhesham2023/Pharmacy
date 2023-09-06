@@ -92,4 +92,5 @@
     <string name="dropped_pin">Dropped Pin</string>
     <string name="poi">Point of Interest</string>
     <string name="permission_denied_explanation">App must access your location to proceed</string>
+    <string name="select_this_address">Select this address</string>
 </resources>

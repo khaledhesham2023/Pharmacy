@@ -13,7 +13,7 @@ object Constants {
     const val CURRENT_LANGUAGE = "CURRENT_LANGUAGE"
     const val ONE_MINUTE = 60L
     const val ONE_SECOND = 1L
-    const val REQUEST_LOCATION_PERMISSION = 1
+    const val REQUEST_FINE_LOCATION_PERMISSION = 1
     const val REQUEST_FOREGROUND_AND_BACKGROUND_LOCATION_PERMISSIONS = 2
     const val REQUEST_FOREGROUND_LOCATION_PERMISSION = 3
     const val WORLD_VIEW = 1f
@@ -21,4 +21,5 @@ object Constants {
     const val CITY_VIEW = 10f
     const val STREET_VIEW = 15f
     const val BUILDING_VIEW = 20f
+    const val API_KEY = "AIzaSyCpNOWJonTlSnkyoe78OkBlzxKCGrS7DSU"
 }

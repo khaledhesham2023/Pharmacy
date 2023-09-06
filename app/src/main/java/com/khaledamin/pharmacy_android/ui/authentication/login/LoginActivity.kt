@@ -116,7 +116,6 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
         }
         viewBinding.forgetYourPassword.setOnClickListener {
             startActivity(Intent(this@LoginActivity, ResetActivity::class.java))
-            finish()
         }
     }
 
