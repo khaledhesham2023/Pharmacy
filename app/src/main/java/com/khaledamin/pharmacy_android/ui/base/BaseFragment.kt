@@ -23,6 +23,9 @@ abstract class BaseFragment<VB: ViewDataBinding> : Fragment() {
     ): View? {
         viewBinding = DataBindingUtil.inflate(inflater,layout,container,false)
         loadingDialog = LoadingDialog(requireContext())
+        setupListeners()
         return viewBinding.root
     }
+
+    abstract fun setupListeners()
 }

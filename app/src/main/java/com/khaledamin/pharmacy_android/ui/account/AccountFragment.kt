@@ -46,6 +46,7 @@ class AccountFragment : BaseFragmentWithViewModel<FragmentAccountBinding, Accoun
                 viewModel.saveUser(null)
                 viewModel.saveBearerToken(null)
                 viewModel.saveUserName(null)
+                viewModel.savePhone(null)
                 startActivity(Intent(requireActivity(), LoginActivity::class.java))
                 requireActivity().finish()
             }

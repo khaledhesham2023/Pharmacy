@@ -25,7 +25,7 @@ data class Address(
     val governorate: String?,
     @SerializedName("city")
     val city:String?,
-    @SerializedName("default")
+    @SerializedName("isDefault")
     val isDefault:Boolean?,
     @SerializedName("phone")
     val phone:String?,

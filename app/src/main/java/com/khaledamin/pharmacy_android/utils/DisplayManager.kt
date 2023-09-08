@@ -15,13 +15,13 @@ object DisplayManager {
         title: Int,
         message: Int,
         positiveText: Int,
-        negativeText: Int,
+        negativeText: Int?,
         listener: DialogInterface.OnClickListener,
     ) {
         val builder =
             AlertDialog.Builder(context).setCancelable(true).setTitle(title).setMessage(message)
                 .setPositiveButton(positiveText, listener)
-                .setNegativeButton(negativeText, null)
+                .setNegativeButton(negativeText!!, null)
                 .create()
         builder.show()
     }
@@ -31,13 +31,13 @@ object DisplayManager {
         title: Int,
         message: String,
         positiveText: Int?,
-        negativeText: Int,
-        listener: DialogInterface.OnClickListener,
+        negativeText: Int?,
+        listener: DialogInterface.OnClickListener?,
     ) {
         val builder =
             AlertDialog.Builder(context).setCancelable(true).setTitle(title).setMessage(message)
                 .setPositiveButton(positiveText!!, listener)
-                .setNegativeButton(negativeText, null)
+                .setNegativeButton(negativeText!!, null)
                 .create()
         builder.show()
     }

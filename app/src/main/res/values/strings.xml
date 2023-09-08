@@ -94,4 +94,15 @@
     <string name="permission_denied_explanation">App must access your location to proceed</string>
     <string name="select_this_address">Select this address</string>
     <string name="search_for_address">Search for Address</string>
+    <string name="warning">Warning</string>
+    <string name="check">Check</string>
+    <string name="address_not_available">Address not available, try another</string>
+    <string name="phone_required">Phone Number is required</string>
+    <string name="area">Area</string>
+    <string name="remove_address">Remove Address</string>
+    <string name="cannot_delete_address">Can\'t delete address</string>
+    <string name="default_address_error">This address is the default one, So it can\'t be deleted.</string>
+    <string name="confirm_address_remove">Are you sure you want to remove that address ?</string>
+    <string name="confirm_set_default_address">Are you sure you want to set that address as the default one ?</string>
+    <string name="close">Close</string>
 </resources>

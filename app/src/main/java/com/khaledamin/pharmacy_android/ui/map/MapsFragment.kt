@@ -6,53 +6,44 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
-import android.location.LocationRequest
 import android.os.Build
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiActivity
-import com.google.android.gms.common.api.GoogleApiClient
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE
-import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
-import com.google.android.material.snackbar.Snackbar
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.FragmentMapsBinding
+import com.khaledamin.pharmacy_android.ui.addresses.AddAddressViewModel
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
 import com.khaledamin.pharmacy_android.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
-import java.lang.Exception
-import java.lang.StringBuilder
 import java.util.Locale
 
 @AndroidEntryPoint
-class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewModel>(),
+class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, AddAddressViewModel>(),
     OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
@@ -61,13 +52,54 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
     private lateinit var reverseGeocoder: Geocoder
     private lateinit var geocoder: Geocoder
     private lateinit var mapFragment: SupportMapFragment
-    override val viewModelClass: Class<MapsViewModel>
-        get() = MapsViewModel::class.java
+    private lateinit var addressName : String
+//    private lateinit var locationRequest: LocationRequest
+//    private lateinit var locationSettingsRequest: LocationSettingsRequest.Builder
+//    private lateinit var locationCallback: LocationCallback
+//    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+//    private lateinit var currentLocation : Location
+
+    override val viewModelClass: Class<AddAddressViewModel>
+        get() = AddAddressViewModel::class.java
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i("MAPS", "onViewCreated()")
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+//        locationRequest = LocationRequest().apply {
+//            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//            interval = 300
+//            fastestInterval = 300
+//        }
+//        locationSettingsRequest =
+//            LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+//        var result: Task<LocationSettingsResponse> =
+//            LocationServices.getSettingsClient(requireContext())
+//                .checkLocationSettings(locationSettingsRequest.build())
+//        result.addOnFailureListener(object : OnFailureListener {
+//            override fun onFailure(p0: java.lang.Exception) {
+//                if (p0 is ResolvableApiException) {
+//                    try {
+//                        val resolvable = p0 as ResolvableApiException
+//                        resolvable.startResolutionForResult(
+//                            requireActivity(),
+//                            Constants.EXCEPTION_REQUEST_CODE
+//                        )
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//            }
+//
+//        })
+//        locationCallback = object : LocationCallback() {
+//            override fun onLocationResult(locationResult: LocationResult) {
+//                for (location in locationResult.locations){
+//                    currentLocation = location
+//                }
+//            }
+//        }
         // Initializing Places using API Key
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), Constants.API_KEY)
@@ -80,19 +112,26 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
     override fun setupListeners() {
         viewBinding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                var location = query.toString()
-                var addresses: List<Address>? = null
-                if (location != null){
+                try {
+                    val location = query.toString()
+                    var addresses: List<Address>? = null
                     geocoder = Geocoder(requireContext())
                     try {
-                        addresses = geocoder.getFromLocationName(location,1)
-                    } catch (exception:Exception){
-
+                        addresses = geocoder.getFromLocationName(location, 1)
+                    } catch (_: Exception) {
                     }
+                    val searchedAddress: Address = addresses!![0]
+                    var latLng = LatLng(searchedAddress.latitude, searchedAddress.longitude)
+                    map.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            latLng,
+                            Constants.STREET_VIEW
+                        )
+                    )
+                    return true
+                } catch (e:Exception){
+                    Toast.makeText(requireContext(),getString(R.string.address_not_available),Toast.LENGTH_SHORT).show()
                 }
-                val searchedAddress:Address = addresses!![0]
-                var latLng = LatLng(searchedAddress.latitude,searchedAddress.longitude)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,Constants.STREET_VIEW))
                 return true
             }
 
@@ -102,6 +141,13 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
             }
 
         })
+
+        viewBinding.select.setOnClickListener {
+            Log.i("Map",latitude.toString())
+
+            findNavController().navigate(MapsFragmentDirections.actionMapsFragmentToAddAddressFragment2(
+                latitude!!.toFloat(), longitude!!.toFloat(),addressName))
+        }
     }
 
     override fun setupObservers() {
@@ -115,6 +161,7 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
         Log.i("MAPS", "onMapsReady() started")
         map = googleMap
         val cairo = LatLng(30.04670384770477, 31.23408763555915)
+//        val cairo = LatLng(currentLocation.latitude,currentLocation.longitude)
         val zoomLevel = Constants.STREET_VIEW
         // Initializing Geocoder
         reverseGeocoder = Geocoder(requireContext(), Locale.getDefault())
@@ -130,7 +177,7 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
             latitude = map.cameraPosition.target.latitude
             longitude = map.cameraPosition.target.longitude
 
-            var addressName = ""
+            addressName = ""
             // Reverse Geocoding
             try {
                 val addressList: List<Address> =
@@ -225,4 +272,22 @@ class MapsFragment : BaseFragmentWithViewModel<FragmentMapsBinding, MapsViewMode
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
     }
+
+//    @SuppressLint("MissingPermission")
+//    private fun startLocationUpdates(){
+//        if (fusedLocationProviderClient != null){
+//            fusedLocationProviderClient.requestLocationUpdates(locationRequest,locationCallback,
+//                Looper.getMainLooper())
+//        }
+//    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        startLocationUpdates()
+//    }
+
+//    override fun onPause() {
+//        super.onPause()
+//        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+//    }
 }

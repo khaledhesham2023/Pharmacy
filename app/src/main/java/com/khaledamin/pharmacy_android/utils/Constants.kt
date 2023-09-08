@@ -22,4 +22,5 @@ object Constants {
     const val STREET_VIEW = 15f
     const val BUILDING_VIEW = 20f
     const val API_KEY = "AIzaSyCpNOWJonTlSnkyoe78OkBlzxKCGrS7DSU"
+    const val EXCEPTION_REQUEST_CODE = 50
 }

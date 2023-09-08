@@ -93,6 +93,16 @@
     <string name="dropped_pin">تحديد هذه المنطقة</string>
     <string name="poi">المنطقة المحددة</string>
     <string name="select_this_address">تحديد هذا العنوان</string>
-    <string name="search_for_address">Search for Address</string>
-
+    <string name="search_for_address">بحث عن عنوان</string>
+    <string name="warning">تحذير</string>
+    <string name="check">تعيين</string>
+    <string name="address_not_available">العنوان غير متاح حالياً. ابحث عن عنوان أخر</string>
+    <string name="phone_required">مطلوب ادخال رقم الهاتف</string>
+    <string name="area">المنطقة</string>
+    <string name="remove_address">حذف العنوان</string>
+    <string name="cannot_delete_address">لا يمكن حذف العنوان</string>
+    <string name="default_address_error">هذا هو العنوان الافتراضي حالياً و لا يمكن حذفه</string>
+    <string name="confirm_address_remove">هل أنت متأكد من رغبتك من حذف هذا العنوان ؟</string>
+    <string name="confirm_set_default_address">هل أنت متأكد من رغبتك في جعل العنوان هو العنوان الافتراضي ؟</string>
+    <string name="close">اغلاق</string>
 </resources>

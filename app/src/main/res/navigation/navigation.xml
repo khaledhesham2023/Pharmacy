@@ -37,7 +37,13 @@
         android:id="@+id/mapsFragment"
         android:name="com.khaledamin.pharmacy_android.ui.map.MapsFragment"
         android:label="@string/map"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_addAddressFragment2"
+            app:destination="@id/addAddressFragment"
+            app:popUpTo="@id/addAddressFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/addAddressFragment"
         android:name="com.khaledamin.pharmacy_android.ui.addresses.AddAddressFragment"
@@ -46,5 +52,14 @@
         <action
             android:id="@+id/action_addAddressFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
+        <argument
+            android:name="latitude"
+            app:argType="float"/>
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="addressName"
+            app:argType="string" />
     </fragment>
 </navigation>

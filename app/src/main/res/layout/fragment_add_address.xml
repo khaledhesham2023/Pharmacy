@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@color/colorAccent"
+                android:background="@color/white"
                 android:elevation="5dp"
                 android:padding="14dp"
                 android:text="@string/select_address_on_map"
@@ -62,11 +62,11 @@
                     android:id="@+id/address_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
                     android:hint="@string/address_name_optional"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    android:textColor="@color/colorPrimaryDark"
                     android:inputType="text"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -83,9 +83,11 @@
                 app:layout_constraintWidth_percent="0.9">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/governorate"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
                     android:hint="@string/governorate_required"
                     android:inputType="text"
                     android:textSize="20sp"
@@ -109,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="@string/area_required"
+                    android:textColor="@color/colorPrimaryDark"
                     android:inputType="text"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -122,14 +125,14 @@
                 android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/area_layout"
+                app:layout_constraintTop_toBottomOf="@id/city_layout"
                 app:layout_constraintWidth_percent="0.9">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/street"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
                     android:hint="@string/street_required"
                     android:inputType="text"
                     android:textSize="20sp"
@@ -151,28 +154,31 @@
                     android:id="@+id/building"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
                     android:hint="@string/building"
+                    android:textColor="@color/colorPrimaryDark"
                     android:inputType="number"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/city_label"
+                android:id="@+id/city_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/governorate_layout"
+                app:layout_constraintTop_toBottomOf="@id/area_layout"
                 app:layout_constraintWidth_percent="0.9">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:hint="@string/city_required"
                     android:inputType="text"
                     android:textSize="20sp"
@@ -194,9 +200,10 @@
                     android:id="@+id/floor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:hint="@string/floor"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -216,7 +223,8 @@
                     android:id="@+id/apartment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:hint="@string/apartment"
                     android:inputType="number"
                     android:textSize="20sp"
@@ -228,7 +236,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@color/colorAccent"
+                android:background="@color/white"
                 android:elevation="5dp"
                 android:hint="@string/additional_info"
                 android:inputType="text"
@@ -236,6 +244,7 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="70dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -258,7 +267,7 @@
                     android:id="@+id/customer_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:background="@color/white"
                     android:hint="@string/phone_number"
                     android:inputType="number"
                     android:textSize="20sp"
@@ -269,35 +278,35 @@
                 android:id="@+id/set_as_default_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:elevation="5dp"
-                app:layout_constraintWidth_percent="0.9"
                 android:layout_margin="8dp"
+                android:background="@color/white"
+                android:elevation="5dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/customer_phone_layout">
+                app:layout_constraintTop_toBottomOf="@id/customer_phone_layout"
+                app:layout_constraintWidth_percent="0.9">
 
                 <TextView
                     android:id="@+id/set_as_default_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/set_as_default"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"
                     android:layout_margin="8dp"
+                    android:text="@string/set_as_default"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/default_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/default_switch"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
@@ -326,10 +335,10 @@
                 android:text="@string/cancel"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_button"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintWidth_percent="0.9" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
