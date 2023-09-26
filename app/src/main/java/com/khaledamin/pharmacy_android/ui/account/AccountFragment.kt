@@ -72,6 +72,9 @@ class AccountFragment : BaseFragmentWithViewModel<FragmentAccountBinding, Accoun
         viewBinding.locationGroup.setOnClickListener {
             findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToAddressesFragment())
         }
+        viewBinding.ordersGroup.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToOrdersFragment())
+        }
     }
 
     override fun setupObservers() {

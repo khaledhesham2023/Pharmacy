@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+<variable
+    name="product"
+    type="com.khaledamin.pharmacy_android.ui.model.Product" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="#FEFEFE"
+        android:elevation="5dp">
+
+        <ImageView
+            android:id="@+id/product_image"
+            app:imgUrl="@{product.image}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="150dp"
+            android:layout_height="140dp" />
+
+        <ImageView
+            android:id="@+id/like_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/product_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_heart_inactive" />
+
+        <TextView
+            android:id="@+id/product_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_image"
+            tools:text="جيليت مكينة فيوجن بروش لايت 2 موس غيار"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="@{product.name}"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/product_brand"
+            app:layout_constraintBottom_toBottomOf="@+id/product_weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/product_weight"
+            app:layout_constraintTop_toTopOf="@+id/product_weight"
+            tools:text="جيليت"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
+            android:text="@{product.brand}"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/product_weight"
+            app:layout_constraintBottom_toBottomOf="@+id/product_weight_unit"
+            app:layout_constraintEnd_toStartOf="@+id/product_brand"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/product_weight_unit"
+            app:layout_constraintTop_toTopOf="@+id/product_weight_unit"
+            tools:text="5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="20"
+            android:textColor="@color/colorPrimary"
+            android:maxLines="1"
+            android:text="@{String.valueOf(product.weight)}"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/product_weight_unit"
+            app:layout_constraintEnd_toStartOf="@+id/product_weight"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_name"
+            tools:text="قطعة"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
+            android:text="@{product.unit}"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/price"
+            app:layout_constraintBottom_toTopOf="@id/add_cart_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_weight_unit"
+            tools:text="16.99 L.E"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="@{String.valueOf(product.packPrice) + ` L.E`}"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/add_cart_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.85"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/add_cart_lining"
+            android:drawableStart="@drawable/ic_cart2"
+            android:text="@string/add_to_cart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="11sp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

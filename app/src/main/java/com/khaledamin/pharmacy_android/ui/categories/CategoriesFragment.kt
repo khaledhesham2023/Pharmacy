@@ -1,23 +1,22 @@
 package com.khaledamin.pharmacy_android.ui.categories
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.FragmentCategoriesBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
+import com.khaledamin.pharmacy_android.ui.model.Category
 import com.khaledamin.pharmacy_android.utils.DisplayManager.showErrorAlertDialog
 import com.khaledamin.pharmacy_android.utils.ViewState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CategoriesFragment :
-    BaseFragmentWithViewModel<FragmentCategoriesBinding, CategoriesViewModel>() {
+    BaseFragmentWithViewModel<FragmentCategoriesBinding, CategoriesViewModel>(),CategoryCallback {
 
     private lateinit var categoriesAdapter: CategoriesAdapter
 
@@ -26,7 +25,7 @@ class CategoriesFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        categoriesAdapter = CategoriesAdapter(ArrayList())
+        categoriesAdapter = CategoriesAdapter(ArrayList(),this)
         viewBinding.categoriesList.adapter = categoriesAdapter
         viewBinding.categoriesList.layoutManager = GridLayoutManager(requireContext(), 2)
         viewModel.getCatalog(viewModel.getLanguage()!!)
@@ -71,6 +70,10 @@ class CategoriesFragment :
 
     override val layout: Int
         get() = R.layout.fragment_categories
+
+    override fun onCategoryClicked(category: Category,position:Int) {
+        findNavController().navigate(CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(category,position))
+    }
 
 
 }

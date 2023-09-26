@@ -1,7 +1,10 @@
 package com.khaledamin.pharmacy_android.datastore.remote.api
 
-import com.khaledamin.pharmacy_android.ui.model.Address
+import com.khaledamin.pharmacy_android.ui.model.AddressType
+import com.khaledamin.pharmacy_android.ui.model.Order
+import com.khaledamin.pharmacy_android.ui.model.Product
 import com.khaledamin.pharmacy_android.ui.model.requests.AddAddressRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.GetRelatedProductsRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.LoginRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.ResetPasswordRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.SendOTPRequest
@@ -11,13 +14,15 @@ import com.khaledamin.pharmacy_android.ui.model.requests.ValidateUserRequest
 import com.khaledamin.pharmacy_android.ui.model.responses.BaseResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.SendOTPResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.GetCatalogResponse
+import com.khaledamin.pharmacy_android.ui.model.responses.GetCategoryContentsResponse
+import com.khaledamin.pharmacy_android.ui.model.responses.GetRelatedProductsResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.GetUserAddressesResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.LoginResponse
+import com.khaledamin.pharmacy_android.ui.model.responses.ReorderResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.SignupResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.ValidateUserResponse
 import io.reactivex.Single
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -52,8 +57,38 @@ interface PharmacyApi {
     fun addUserAddress(@Body request: AddAddressRequest): Single<BaseResponse>
 
     @PUT("addresses/{addressId}")
-    fun setDefaultAddress(@Path("addressId") addressId:Long, @Body request: SetDefaultAddressRequest): Single<BaseResponse>
+    fun setDefaultAddress(
+        @Path("addressId") addressId: Long,
+        @Body request: SetDefaultAddressRequest,
+    ): Single<BaseResponse>
 
     @POST("addresses/deleteAddress/{addressId}")
-    fun removeAddress(@Path("addressId") addressId: Long, @Body request: SetDefaultAddressRequest): Single<BaseResponse>
+    fun removeAddress(
+        @Path("addressId") addressId: Long,
+        @Body request: SetDefaultAddressRequest,
+    ): Single<BaseResponse>
+
+    @GET("categories/getContents")
+    fun getContents(): Single<GetCategoryContentsResponse>
+
+    @POST("products/relatedProducts/{productId}")
+    fun getRelatedProducts(
+        @Path("productId") id: Long,
+        @Body request: GetRelatedProductsRequest,
+    ): Single<GetRelatedProductsResponse>
+
+    @GET("orders/getCurrentOrders/{id}")
+    fun getCurrentOrders(@Path("id") id: Long): Single<List<Order>>
+
+    @GET("orders/getPreviousOrders/{id}")
+    fun getPreviousOrders(@Path("id") id: Long): Single<List<Order>>
+
+    @PUT("orders/cancelOrder/{orderId}")
+    fun cancelOrder(@Path("orderId") orderId:Long): Single<BaseResponse>
+
+    @PUT("orders/reorder/{userId}/{orderId}")
+    fun reorder(@Path("userId") userId:Long, @Path("orderId") orderId:Long): Single<ReorderResponse>
+
+    @GET("addresses/types")
+    fun getAddressTypes():Single<List<AddressType>>
 }

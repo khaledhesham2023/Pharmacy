@@ -2,6 +2,7 @@ package com.khaledamin.pharmacy_android.datastore.local.repo
 
 import com.khaledamin.pharmacy_android.datastore.remote.api.PharmacyApi
 import com.khaledamin.pharmacy_android.ui.model.requests.AddAddressRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.GetRelatedProductsRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.LoginRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.ResetPasswordRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.SendOTPRequest
@@ -10,7 +11,6 @@ import com.khaledamin.pharmacy_android.ui.model.requests.SignupRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.ValidateUserRequest
 import com.khaledamin.pharmacy_android.utils.SharedPreferencesManager
 import retrofit2.Retrofit
-import retrofit2.http.Body
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,8 +38,15 @@ constructor(
     fun addUserAddress(request: AddAddressRequest) = api.addUserAddress(request)
     fun setDefaultAddress(addressId: Long, request: SetDefaultAddressRequest) =
         api.setDefaultAddress(addressId, request)
-
     fun removeAddress(addressId: Long, request: SetDefaultAddressRequest) =
         api.removeAddress(addressId, request)
+    fun getContents() = api.getContents()
+    fun getRelatedProducts(productId: Long, request: GetRelatedProductsRequest) =
+        api.getRelatedProducts(productId, request)
+    fun getCurrentOrders(id: Long) = api.getCurrentOrders(id)
+    fun getPreviousOrders(id: Long) = api.getPreviousOrders(id)
+    fun cancelOrder(orderId:Long) = api.cancelOrder(orderId)
+    fun reorder(userId:Long,orderId:Long) = api.reorder(userId,orderId)
+    fun getAddressTypes() = api.getAddressTypes()
 
 }

@@ -7,11 +7,17 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.FragmentAddAddressBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
+import com.khaledamin.pharmacy_android.ui.dialogs.AddressTypesDialog
+import com.khaledamin.pharmacy_android.ui.main.MainActivity
+import com.khaledamin.pharmacy_android.ui.model.Address
+import com.khaledamin.pharmacy_android.ui.model.AddressType
 import com.khaledamin.pharmacy_android.ui.model.requests.AddAddressRequest
+import com.khaledamin.pharmacy_android.utils.DisplayManager.showErrorAlertDialog
 import com.khaledamin.pharmacy_android.utils.ViewState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,10 +29,13 @@ class AddAddressFragment :
     private lateinit var addressName: String
     private var longitude: Float = 0.0f
     private var isDefault = false
+    private lateinit var addressTypes: List<AddressType>
+    private var addressTypeId: Long = 0
 
 
     override val viewModelClass: Class<AddAddressViewModel>
         get() = AddAddressViewModel::class.java
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +44,7 @@ class AddAddressFragment :
         addressName = AddAddressFragmentArgs.fromBundle(requireArguments()).addressName ?: ""
         viewBinding.customerPhone.setText(viewModel.getPhone())
         viewBinding.addressName.setText(addressName) ?: ""
+        viewModel.getAddressTypes()
     }
 
     override fun setupListeners() {
@@ -61,7 +71,8 @@ class AddAddressFragment :
                         viewModel.getUser()!!.id,
                         addressName,
                         viewModel.getPhone(),
-                        isDefault
+                        isDefault,
+                        addressTypeId
                     )
                 )
             }
@@ -69,6 +80,22 @@ class AddAddressFragment :
         viewBinding.defaultSwitch.setOnCheckedChangeListener { _, isChecked ->
             isDefault = isChecked
         }
+        viewBinding.addressTypeMenu.setOnClickListener {
+            showAddressTypeMenu()
+        }
+    }
+
+    private fun showAddressTypeMenu() {
+        val addressTypesDialog = object : AddressTypesDialog(requireContext(),addressTypes) {
+            override fun onAddressTypeSelected(type: AddressType) {
+                addressTypeId = type.typeId!!
+                viewBinding.addressType.text = type.typeName
+                dismiss()
+            }
+
+        }
+            addressTypesDialog.show()
+
     }
 
     private fun isDataOk(): Boolean {
@@ -102,14 +129,41 @@ class AddAddressFragment :
                 is ViewState.Loading -> {
                     loadingDialog.show()
                 }
+
                 is ViewState.Success -> {
-                    Toast.makeText(requireContext(),it.data.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.data.message, Toast.LENGTH_SHORT).show()
                     loadingDialog.dismiss()
                     findNavController().navigateUp()
                 }
+
                 is ViewState.Error -> {
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     loadingDialog.dismiss()
+                }
+            }
+        })
+
+//        addressesMapsSharedViewModel.addressName.observe(viewLifecycleOwner, Observer {
+//            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+//        })
+        viewModel.getAddressTypesLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> loadingDialog.show()
+                is ViewState.Success -> {
+                    addressTypes = it.data
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    showErrorAlertDialog(
+                        requireContext(),
+                        R.string.error,
+                        it.message,
+                        R.string.retry,
+                        R.string.cancel
+                    ) { _, _ ->
+                        viewModel.getAddressTypes()
+                    }
                 }
             }
         })
@@ -117,5 +171,6 @@ class AddAddressFragment :
 
     override val layout: Int
         get() = R.layout.fragment_add_address
+
 
 }

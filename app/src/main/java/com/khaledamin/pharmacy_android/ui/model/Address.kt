@@ -30,5 +30,7 @@ data class Address(
     @SerializedName("phone")
     val phone:String?,
     @SerializedName("addressName")
-    val addressName:String?
+    val addressName:String?,
+    @SerializedName("type")
+    val type:String?
     )

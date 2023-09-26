@@ -42,7 +42,8 @@ class MainActivity : BaseActivityWithViewModel<ActivityMainBinding, MainViewMode
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.accountFragment || destination.id == R.id.addressesFragment || destination.id == R.id.addAddressFragment ||
-            destination.id == R.id.mapsFragment) {
+            destination.id == R.id.mapsFragment || destination.id == R.id.productsFragment || destination.id == R.id.productDetailsFragment
+                || destination.id == R.id.ordersFragment || destination.id == R.id.orderDetailsFragment) {
                 viewBinding.bottomNavView.visibility = View.GONE
             } else {
                 viewBinding.bottomNavView.visibility = View.VISIBLE

@@ -76,33 +76,37 @@ class AddressesFragment :
             }
         })
         viewModel.setDefaultAddressLiveData.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is ViewState.Loading -> {
                     loadingDialog.show()
                 }
+
                 is ViewState.Success -> {
-                    Toast.makeText(requireContext(),it.data.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.data.message, Toast.LENGTH_SHORT).show()
                     viewModel.getUserAddresses(viewModel.getUser()!!.id!!)
                     loadingDialog.dismiss()
                 }
+
                 is ViewState.Error -> {
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     loadingDialog.dismiss()
                 }
             }
         })
         viewModel.removeAddressLiveData.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
                 is ViewState.Loading -> {
                     loadingDialog.show()
                 }
+
                 is ViewState.Success -> {
-                    Toast.makeText(requireContext(),it.data.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.data.message, Toast.LENGTH_SHORT).show()
                     viewModel.getUserAddresses(viewModel.getUser()!!.id!!)
                     loadingDialog.dismiss()
                 }
+
                 is ViewState.Error -> {
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     loadingDialog.dismiss()
                 }
             }
@@ -122,30 +126,55 @@ class AddressesFragment :
         popupMenu.setOnMenuItemClickListener { item ->
             when (item!!.itemId) {
                 R.id.set_default_address -> {
-                    showAlertDialog(requireContext(),R.string.confirmation,R.string.confirm_set_default_address,R.string.confirm,R.string.cancel){
-                            _,_->
-                        viewModel.setDefaultAddress(
-                            address.addressId!!,
-                            SetDefaultAddressRequest(viewModel.getUser()!!.id)
-                        )
+                    if (address.isDefault == false) {
+                        showAlertDialog(
+                            requireContext(),
+                            R.string.confirmation,
+                            R.string.confirm_set_default_address,
+                            R.string.confirm,
+                            R.string.cancel
+                        ) { _, _ ->
+                            viewModel.setDefaultAddress(
+                                address.addressId!!,
+                                SetDefaultAddressRequest(viewModel.getUser()!!.id)
+                            )
+                        }
+                    } else {
+                        showAlertDialog(
+                            requireContext(),
+                            R.string.warning,
+                            R.string.set_default_address_error,
+                            R.string.close,
+                            R.string.cancel
+                        ) { _, _ ->
+                        }
                     }
 
                 }
 
                 R.id.remove_address -> {
                     if (address.isDefault == false) {
-                        showAlertDialog(requireContext(),R.string.confirmation,R.string.confirm_address_remove,R.string.confirm,R.string.cancel){
-                            _,_->
+                        showAlertDialog(
+                            requireContext(),
+                            R.string.confirmation,
+                            R.string.confirm_address_remove,
+                            R.string.confirm,
+                            R.string.cancel
+                        ) { _, _ ->
                             viewModel.removeAddress(
                                 address.addressId!!,
                                 SetDefaultAddressRequest(viewModel.getUser()!!.id)
                             )
                         }
-
                     } else {
-showAlertDialog(requireContext(),R.string.warning,R.string.default_address_error,R.string.close,R.string.cancel){
-    _,_->
-}
+                        showAlertDialog(
+                            requireContext(),
+                            R.string.warning,
+                            R.string.default_address_error,
+                            R.string.close,
+                            R.string.cancel
+                        ) { _, _ ->
+                        }
                     }
                 }
             }

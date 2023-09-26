@@ -21,8 +21,8 @@
             android:id="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_more2"
             android:layout_margin="10dp"
+            android:src="@drawable/ic_more2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,11 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:maxWidth="200dp"
             android:text="@{address.additionalDetails}"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:maxWidth="200dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -203,9 +203,9 @@
             android:layout_margin="10dp"
             android:layout_marginBottom="10dp"
             android:text="@string/customer_phone"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/apartment_label" />
@@ -217,9 +217,9 @@
             android:layout_margin="10dp"
             android:text="@{address.phone}"
             android:textSize="14sp"
-            app:layout_constraintHorizontal_bias="0.063"
             app:layout_constraintBottom_toBottomOf="@+id/telephone_label"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.063"
             app:layout_constraintStart_toEndOf="@+id/telephone_label"
             app:layout_constraintTop_toTopOf="@+id/telephone_label" />
 
@@ -227,17 +227,34 @@
             android:id="@+id/default_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/default_text_background"
             android:padding="10dp"
             android:text="@string/set_default"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
-            android:layout_margin="10dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:showDefault="@{address.isDefault()}" />
+
+        <TextView
+            android:id="@+id/type_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/type_text_background"
+            android:padding="10dp"
+            android:text="@{address.type}"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.912"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.816"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

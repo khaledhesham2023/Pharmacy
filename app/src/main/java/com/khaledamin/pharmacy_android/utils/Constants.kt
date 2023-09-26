@@ -3,7 +3,7 @@ package com.khaledamin.pharmacy_android.utils
 object Constants {
 
     const val USER_PHONE = "USER_PHONE"
-    const val BASE_URL = "http://192.168.1.8:8084/rest/V1/"
+    const val BASE_URL = "http://192.168.1.13:8084/rest/V1/"
     const val SHARED_PREFERENCES = "SHARED_PREFERENCES"
     const val BEARER_TOKEN = "BEARER_TOKEN"
     const val IS_FIRST_TIME = "IS_FIRST_TIME"

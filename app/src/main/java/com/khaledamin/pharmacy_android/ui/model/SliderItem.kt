@@ -3,7 +3,7 @@ package com.khaledamin.pharmacy_android.ui.model
 import com.google.gson.annotations.SerializedName
 
 data class SliderItem(
-    @SerializedName("sliderId")
+    @SerializedName("id")
     val sliderId:Long?,
     @SerializedName("sliderTitle")
     val sliderTitle:String?,

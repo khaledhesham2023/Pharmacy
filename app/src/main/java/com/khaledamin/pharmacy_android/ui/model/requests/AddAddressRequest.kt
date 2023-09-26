@@ -30,5 +30,7 @@ data class AddAddressRequest(
     @SerializedName("phone")
     val phone:String?,
     @SerializedName("isDefault")
-    val isDefault:Boolean
+    val isDefault:Boolean,
+    @SerializedName("addressTypeId")
+    val addressTypeId:Long?
     )

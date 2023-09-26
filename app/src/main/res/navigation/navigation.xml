@@ -9,7 +9,11 @@
         android:id="@+id/categoriesFragment"
         android:name="com.khaledamin.pharmacy_android.ui.categories.CategoriesFragment"
         android:label="@string/categories"
-        tools:layout="@layout/fragment_categories"/>
+        tools:layout="@layout/fragment_categories">
+        <action
+            android:id="@+id/action_categoriesFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.khaledamin.pharmacy_android.ui.account.AccountFragment"
@@ -18,6 +22,9 @@
         <action
             android:id="@+id/action_accountFragment_to_addressesFragment"
             app:destination="@id/addressesFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
     </fragment>
     <fragment
         android:id="@+id/bagFragment"
@@ -62,4 +69,61 @@
             android:name="addressName"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.product.ProductsFragment"
+        android:label="@string/products"
+        tools:layout="@layout/fragment_products">
+        <argument
+            android:name="category"
+            app:argType="com.khaledamin.pharmacy_android.ui.model.Category" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.productdetails.ProductDetailsFragment"
+        android:label="@string/product_details"
+        tools:layout="@layout/fragment_product_details">
+        <argument
+            android:name="product"
+            app:argType="com.khaledamin.pharmacy_android.ui.model.Product" />
+        <action
+            android:id="@+id/action_productDetailsFragment_self"
+            app:destination="@id/productDetailsFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.orders.OrdersFragment"
+        android:label="@string/my_orders"
+        tools:layout="@layout/fragment_orders">
+        <action
+            android:id="@+id/action_ordersFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.orders.OrderDetailsFragment"
+        android:label="@string/order_details"
+        tools:layout="@layout/fragment_order_details">
+        <argument
+            android:name="order"
+            app:argType="com.khaledamin.pharmacy_android.ui.model.Order" />
+        <argument
+            android:name="isCurrent"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_orderDetailsFragment_self"
+            app:destination="@id/orderDetailsFragment"
+            app:popUpTo="@id/ordersFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
 </navigation>
