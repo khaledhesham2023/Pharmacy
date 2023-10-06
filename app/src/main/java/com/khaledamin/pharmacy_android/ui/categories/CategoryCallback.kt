@@ -4,5 +4,5 @@ import com.khaledamin.pharmacy_android.ui.model.Category
 
 interface CategoryCallback {
 
-    fun onCategoryClicked(category: Category, position:Int)
+    fun onCategoryClicked(categoryId:Long)
 }

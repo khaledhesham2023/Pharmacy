@@ -30,7 +30,18 @@
         android:id="@+id/bagFragment"
         android:name="com.khaledamin.pharmacy_android.ui.bag.BagFragment"
         android:label="@string/bag"
-        tools:layout="@layout/fragment_bag"/>
+        tools:layout="@layout/fragment_bag">
+        <action
+            android:id="@+id/action_bagFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_bagFragment_to_orderCreatedFragment"
+            app:destination="@id/orderCreatedFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/bagFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/addressesFragment"
         android:name="com.khaledamin.pharmacy_android.ui.addresses.AddressesFragment"
@@ -74,15 +85,12 @@
         android:name="com.khaledamin.pharmacy_android.ui.product.ProductsFragment"
         android:label="@string/products"
         tools:layout="@layout/fragment_products">
-        <argument
-            android:name="category"
-            app:argType="com.khaledamin.pharmacy_android.ui.model.Category" />
-        <argument
-            android:name="position"
-            app:argType="integer" />
         <action
             android:id="@+id/action_productsFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -95,9 +103,6 @@
         <action
             android:id="@+id/action_productDetailsFragment_self"
             app:destination="@id/productDetailsFragment" />
-        <argument
-            android:name="categoryId"
-            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/ordersFragment"
@@ -125,5 +130,20 @@
             app:popUpTo="@id/ordersFragment"
             app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/orderCreatedFragment"
+        android:name="com.khaledamin.pharmacy_android.ui.ordercreated.OrderCreatedFragment"
+        android:label="OrderCreatedFragment"
+        tools:layout="@layout/fragment_order_created">
+        <argument
+            android:name="order"
+            app:argType="com.khaledamin.pharmacy_android.ui.model.Order" />
+        <action
+            android:id="@+id/action_orderCreatedFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment"
+            app:popUpTo="@id/orderCreatedFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
 
 </navigation>

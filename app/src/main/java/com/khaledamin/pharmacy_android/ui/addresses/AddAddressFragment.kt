@@ -2,19 +2,14 @@ package com.khaledamin.pharmacy_android.ui.addresses
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.FragmentAddAddressBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
 import com.khaledamin.pharmacy_android.ui.dialogs.AddressTypesDialog
-import com.khaledamin.pharmacy_android.ui.main.MainActivity
-import com.khaledamin.pharmacy_android.ui.model.Address
 import com.khaledamin.pharmacy_android.ui.model.AddressType
 import com.khaledamin.pharmacy_android.ui.model.requests.AddAddressRequest
 import com.khaledamin.pharmacy_android.utils.DisplayManager.showErrorAlertDialog
@@ -143,9 +138,7 @@ class AddAddressFragment :
             }
         })
 
-//        addressesMapsSharedViewModel.addressName.observe(viewLifecycleOwner, Observer {
-//            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-//        })
+
         viewModel.getAddressTypesLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is ViewState.Loading -> loadingDialog.show()

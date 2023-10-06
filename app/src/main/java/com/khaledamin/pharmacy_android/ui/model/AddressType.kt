@@ -6,5 +6,7 @@ data class AddressType(
     @SerializedName("typeId")
     val typeId:Long?,
     @SerializedName("typeName")
-    val typeName:String?
+    val typeName:String?,
+    @SerializedName("typeNameAr")
+    val typeNameAr:String?
 )

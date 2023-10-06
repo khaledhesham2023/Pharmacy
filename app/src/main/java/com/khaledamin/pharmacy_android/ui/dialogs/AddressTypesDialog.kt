@@ -4,15 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.View
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.khaledamin.pharmacy_android.R
-import com.khaledamin.pharmacy_android.databinding.DialogAddressTypeListBinding
 import com.khaledamin.pharmacy_android.ui.addresses.AddressTypeAdapter
 import com.khaledamin.pharmacy_android.ui.addresses.AddressTypeCallback
 import com.khaledamin.pharmacy_android.ui.model.AddressType

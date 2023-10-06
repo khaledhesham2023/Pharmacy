@@ -76,7 +76,8 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
                             LoginRequest(
                                 viewBinding.username.text.toString().trim(),
                                 viewBinding.password.text.toString().trim()
-                            )
+                            ),
+                            viewModel.getLanguage()!!
                         )
                     }
                     loadingDialog.dismiss()
@@ -105,7 +106,8 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
                     LoginRequest(
                         viewBinding.username.text.toString().trim(),
                         viewBinding.password.text.toString().trim()
-                    )
+                    ),
+                    viewModel.getLanguage()!!
                 )
             }
         }

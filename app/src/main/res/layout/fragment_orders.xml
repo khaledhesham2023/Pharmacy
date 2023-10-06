@@ -75,10 +75,11 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/previous_btn"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintWidth_percent="0.95">
                 <ImageView
                     android:id="@+id/empty_view_image"
                     android:layout_width="0dp"

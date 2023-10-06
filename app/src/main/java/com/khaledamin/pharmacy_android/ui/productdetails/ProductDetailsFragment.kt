@@ -32,7 +32,7 @@ class ProductDetailsFragment : BaseFragmentWithViewModel<FragmentProductDetailsB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         product = ProductDetailsFragmentArgs.fromBundle(requireArguments()).product
-        categoryId = ProductDetailsFragmentArgs.fromBundle(requireArguments()).categoryId
+//        categoryId = ProductDetailsFragmentArgs.fromBundle(requireArguments()).categoryId
         productsAdapter = ProductsAdapter(ArrayList(),this)
         viewBinding.otherProductsList.adapter = productsAdapter
         viewBinding.otherProductsList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
@@ -69,8 +69,22 @@ class ProductDetailsFragment : BaseFragmentWithViewModel<FragmentProductDetailsB
     }
 
     override fun onProductClicked(product: Product) {
-        findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentSelf(product,categoryId))
+        findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentSelf(product))
     }
 
+    override fun onProductAdded(product: Product) {
+//        TODO("Not yet implemented")
+    }
 
+    override fun onPlusClicked(product: Product, quantity: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMinusClicked(product: Product, quantity: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onProductRemoved(product: Product) {
+        TODO("Not yet implemented")
+    }
 }

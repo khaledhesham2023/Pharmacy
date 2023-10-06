@@ -29,5 +29,5 @@ data class Product(
     @SerializedName("manufacturer")
     val manufacturer:String?,
     @SerializedName("quantity")
-    val quantity:Int?
+    val quantity:Int?,
 ):Serializable

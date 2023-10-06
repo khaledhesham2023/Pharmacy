@@ -1,6 +1,7 @@
 package com.khaledamin.pharmacy_android.ui.model
 
 import com.google.gson.annotations.SerializedName
+import com.khaledamin.pharmacy_android.utils.Selectable
 
 data class CategoryItem(
     @SerializedName("id")
@@ -9,4 +10,6 @@ data class CategoryItem(
     val name:String,
     @SerializedName("subCategories")
     val subCategories:List<SubCategory>
-)
+):Selectable {
+    override var isSelected: Boolean = false
+}

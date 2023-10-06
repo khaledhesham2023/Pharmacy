@@ -42,12 +42,20 @@ class OrdersFragment : BaseFragmentWithViewModel<FragmentOrdersBinding, OrderVie
                 }
 
                 is ViewState.Success -> {
-                    viewBinding.previousOrdersList.visibility = View.GONE
-                    viewBinding.currentOrdersList.visibility = View.VISIBLE
-                    viewBinding.currentOrdersList.adapter = currentOrderAdapter
-                    viewBinding.currentOrdersList.layoutManager =
-                        LinearLayoutManager(requireContext())
-                    currentOrderAdapter.updateDataSet(it.data)
+                    if (it.data.isEmpty()) {
+                        viewBinding.emptyView.visibility = View.VISIBLE
+                        viewBinding.emptyViewMessage.text = getString(R.string.no_orders_found)
+                        viewBinding.currentOrdersList.visibility = View.GONE
+                        viewBinding.previousOrdersList.visibility = View.GONE
+                        viewBinding.emptyViewButton.visibility = View.GONE
+                    } else {
+                        viewBinding.previousOrdersList.visibility = View.GONE
+                        viewBinding.currentOrdersList.visibility = View.VISIBLE
+                        viewBinding.currentOrdersList.adapter = currentOrderAdapter
+                        viewBinding.currentOrdersList.layoutManager =
+                            LinearLayoutManager(requireContext())
+                        currentOrderAdapter.updateDataSet(it.data)
+                    }
                     loadingDialog.dismiss()
                 }
 
@@ -61,6 +69,9 @@ class OrdersFragment : BaseFragmentWithViewModel<FragmentOrdersBinding, OrderVie
                     ) { _, _ ->
                         viewModel.getCurrentOrders(viewModel.getUser()!!.id!!)
                     }
+                    viewBinding.emptyView.visibility = View.VISIBLE
+                    viewBinding.emptyViewButton.visibility = View.VISIBLE
+                    viewBinding.emptyViewMessage.text = getString(R.string.error_loading_orders)
                     loadingDialog.dismiss()
                 }
             }
@@ -72,13 +83,22 @@ class OrdersFragment : BaseFragmentWithViewModel<FragmentOrdersBinding, OrderVie
                 }
 
                 is ViewState.Success -> {
-                    viewBinding.currentOrdersList.visibility = View.GONE
-                    viewBinding.previousOrdersList.visibility = View.VISIBLE
-                    viewBinding.previousOrdersList.adapter = previousOrderAdapter
-                    viewBinding.previousOrdersList.layoutManager =
-                        LinearLayoutManager(requireContext())
-                    previousOrderAdapter.updateDataSet(it.data)
+                    if (it.data.isEmpty()) {
+                        viewBinding.emptyView.visibility = View.VISIBLE
+                        viewBinding.emptyViewMessage.text = getString(R.string.no_orders_found)
+                        viewBinding.currentOrdersList.visibility = View.GONE
+                        viewBinding.previousOrdersList.visibility = View.GONE
+                        viewBinding.emptyViewButton.visibility = View.GONE
+                    } else {
+                        viewBinding.currentOrdersList.visibility = View.GONE
+                        viewBinding.previousOrdersList.visibility = View.VISIBLE
+                        viewBinding.previousOrdersList.adapter = previousOrderAdapter
+                        viewBinding.previousOrdersList.layoutManager =
+                            LinearLayoutManager(requireContext())
+                        previousOrderAdapter.updateDataSet(it.data)
+                    }
                     loadingDialog.dismiss()
+
                 }
 
                 is ViewState.Error -> {

@@ -7,11 +7,15 @@
 
     </data>
 
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A0B0B6">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.authentication.login.LoginActivity"
-        android:background="#A0B0B6">
+        tools:context=".ui.authentication.login.LoginActivity">
 
         <ImageView
             android:id="@+id/app_image"
@@ -25,6 +29,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.6" />
 
+        <TextView
+            android:id="@+id/pharmacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bebas_neue"
+            android:text="@string/app_name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="50sp"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_image" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/username_layout"
             android:layout_width="0dp"
@@ -32,7 +50,7 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_image"
+            app:layout_constraintTop_toBottomOf="@id/pharmacy"
             app:layout_constraintWidth_percent="0.9">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -48,11 +66,11 @@
             android:id="@+id/password_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/username_layout"
-            app:layout_constraintWidth_percent="0.9">
+            app:layout_constraintWidth_percent="0.9"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
@@ -120,6 +138,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guest"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="10dp"
             app:layout_constraintWidth_percent="0.9" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+
 </layout>

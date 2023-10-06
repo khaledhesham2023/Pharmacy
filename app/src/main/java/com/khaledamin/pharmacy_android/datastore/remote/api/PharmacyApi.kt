@@ -2,16 +2,22 @@ package com.khaledamin.pharmacy_android.datastore.remote.api
 
 import com.khaledamin.pharmacy_android.ui.model.AddressType
 import com.khaledamin.pharmacy_android.ui.model.Order
+import com.khaledamin.pharmacy_android.ui.model.Payment
 import com.khaledamin.pharmacy_android.ui.model.Product
+import com.khaledamin.pharmacy_android.ui.model.Shipping
 import com.khaledamin.pharmacy_android.ui.model.requests.AddAddressRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.AddItemToCartRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.CreateOrderRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.GetRelatedProductsRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.LoginRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.RemoveItemFromCartRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.ResetPasswordRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.SendOTPRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.SetDefaultAddressRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.SignupRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.ValidateUserRequest
 import com.khaledamin.pharmacy_android.ui.model.responses.BaseResponse
+import com.khaledamin.pharmacy_android.ui.model.responses.CreateOrderResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.SendOTPResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.GetCatalogResponse
 import com.khaledamin.pharmacy_android.ui.model.responses.GetCategoryContentsResponse
@@ -29,8 +35,8 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface PharmacyApi {
-    @POST("login")
-    fun login(@Body loginRequest: LoginRequest): Single<LoginResponse>
+    @POST("login/{language}")
+    fun login(@Body loginRequest: LoginRequest, @Path("language") lang: String): Single<LoginResponse>
 
     @POST("signup")
     fun signup(@Body signupRequest: SignupRequest): Single<SignupResponse>
@@ -68,8 +74,8 @@ interface PharmacyApi {
         @Body request: SetDefaultAddressRequest,
     ): Single<BaseResponse>
 
-    @GET("categories/getContents")
-    fun getContents(): Single<GetCategoryContentsResponse>
+    @GET("categories/getContents/{lang}")
+    fun getContents(@Path("lang") lang: String): Single<GetCategoryContentsResponse>
 
     @POST("products/relatedProducts/{productId}")
     fun getRelatedProducts(
@@ -91,4 +97,26 @@ interface PharmacyApi {
 
     @GET("addresses/types")
     fun getAddressTypes():Single<List<AddressType>>
+
+    @POST("cart/addItemToCart")
+    fun addItemToCart(@Body request: AddItemToCartRequest):Single<BaseResponse>
+
+    @GET("cart/getUserCarts/{userId}")
+    fun getUserCartItems(@Path("userId") userId: Long):Single<List<Product>>
+
+    @PUT("cart/updateQuantity")
+    fun updateQuantity(@Body request: AddItemToCartRequest):Single<BaseResponse>
+
+    @POST("cart/deleteCartItem")
+    fun removeItemFromCart(@Body request: RemoveItemFromCartRequest):Single<BaseResponse>
+
+    @GET("payment")
+    fun getPaymentTypes():Single<List<Payment>>
+
+    @GET("shipping")
+    fun getShippingMethods():Single<List<Shipping>>
+
+    @POST("orders/createOrder")
+    fun createOrder(@Body request: CreateOrderRequest):Single<CreateOrderResponse>
+
 }

@@ -21,6 +21,6 @@ constructor(repo: Repo,apiRequestManager: ApiRequestManager): BaseViewModel<Repo
     val loginLiveData: LiveData<ViewState<LoginResponse>>
         get() = _loginLiveData
 
-    fun login(request: LoginRequest) = apiRequestManager.requestApi(repo.login(request),_loginLiveData)
+    fun login(request: LoginRequest,lang:String) = apiRequestManager.requestApi(repo.login(request,lang),_loginLiveData)
 
 }

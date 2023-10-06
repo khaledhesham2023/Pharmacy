@@ -117,7 +117,7 @@
     <string name="delivery_information">Delivery Information</string>
     <string name="delivery_details">Delivery can be regular or fast delivery</string>
     <string name="related_products">Related Products</string>
-    <string name="add_evaluation">Add Evalution</string>
+    <string name="add_evaluation">Add Evaluation</string>
     <string name="choose_your_medicine">Choose your medicine</string>
     <string name="current">Current</string>
     <string name="previous">Previous</string>
@@ -140,4 +140,15 @@
     <string name="confirm_cancel">Are you sure you want to cancel that order ?</string>
     <string name="address_type">Address Type</string>
     <string name="select_the_address_type">Select the address type</string>
+    <string name="product_s">Product/s</string>
+    <string name="select_payment_method">Select Payment method</string>
+    <string name="shipping_method">Shipping Method: </string>
+    <string name="summary">Summary</string>
+    <string name="select_shipping_method">Select Shipping method: </string>
+    <string name="create_order">Create Order</string>
+    <string name="thank_you_for_ordering_from_us_order_created_successfully">Thank you for ordering from us, Order created successfully</string>
+    <string name="return_to_my_orders_page">Return to My Orders page</string>
+    <string name="no_orders_found">No Orders found</string>
+    <string name="error_loading_orders">Error during loading orders, ..try again ?</string>
+    <string name="confirm_create_order">Are you sure you want to create a new order ?</string>
 </resources>

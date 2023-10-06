@@ -9,23 +9,29 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.FragmentCategoriesBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
-import com.khaledamin.pharmacy_android.ui.model.Category
 import com.khaledamin.pharmacy_android.utils.DisplayManager.showErrorAlertDialog
 import com.khaledamin.pharmacy_android.utils.ViewState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CategoriesFragment :
-    BaseFragmentWithViewModel<FragmentCategoriesBinding, CategoriesViewModel>(),CategoryCallback {
+    BaseFragmentWithViewModel<FragmentCategoriesBinding, CategoriesViewModel>(), CategoryCallback {
 
     private lateinit var categoriesAdapter: CategoriesAdapter
+//    private lateinit var categoriesProductsSharedViewModel: CategoriesProductsSharedViewModel
 
     override val viewModelClass: Class<CategoriesViewModel>
         get() = CategoriesViewModel::class.java
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        categoriesProductsSharedViewModel =
+//            ViewModelProvider(requireActivity())[CategoriesProductsSharedViewModel::class.java]
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        categoriesAdapter = CategoriesAdapter(ArrayList(),this)
+        categoriesAdapter = CategoriesAdapter(ArrayList(), this)
         viewBinding.categoriesList.adapter = categoriesAdapter
         viewBinding.categoriesList.layoutManager = GridLayoutManager(requireContext(), 2)
         viewModel.getCatalog(viewModel.getLanguage()!!)
@@ -71,8 +77,10 @@ class CategoriesFragment :
     override val layout: Int
         get() = R.layout.fragment_categories
 
-    override fun onCategoryClicked(category: Category,position:Int) {
-        findNavController().navigate(CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(category,position))
+    override fun onCategoryClicked(categoryId:Long) {
+//        categoriesProductsSharedViewModel.categoryProductsLiveData.value!!.category = category
+//        categoriesProductsSharedViewModel.categoryProductsLiveData.value!!.position = position
+        findNavController().navigate(CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(categoryId))
     }
 
 

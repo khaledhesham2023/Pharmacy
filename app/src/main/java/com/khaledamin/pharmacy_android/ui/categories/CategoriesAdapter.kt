@@ -14,7 +14,7 @@ class CategoriesAdapter(data: List<Category>, private val callback: CategoryCall
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                callback.onCategoryClicked(data[layoutPosition],layoutPosition)
+                callback.onCategoryClicked(data[layoutPosition].categoryId!!)
             }
         }
     }
