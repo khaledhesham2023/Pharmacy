@@ -39,7 +39,7 @@ class AppModule : Application() {
         val okhttpClient = OkHttpClient.Builder().addInterceptor(Interceptor {
             val request = it.request()
             val url = request.url().toString()
-            if (url.contains("addresses") || url.contains("orders") || url.contains("cart") || url.contains("payment") || url.contains("shipping")){
+            if (url.contains("addresses") || url.contains("orders") || url.contains("cart") || url.contains("payment") || url.contains("shipping") || url.contains("changePassword")){
                 val newRequest = request.newBuilder().addHeader("Authorization", "Bearer ${sharedPreferencesManager.getBearerToken()}").build()
                 it.proceed(newRequest)
             } else {

@@ -26,8 +26,6 @@ class CategoriesAdapter(data: List<Category>, private val callback: CategoryCall
         return CategoriesViewHolder(getItemViewBinding(parent))
     }
 
-    override fun getItemCount(): Int = data.size
-
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         holder.binding.category = data[position]
     }

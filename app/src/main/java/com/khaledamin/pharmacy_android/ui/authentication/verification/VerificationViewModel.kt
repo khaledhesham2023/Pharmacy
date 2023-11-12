@@ -28,10 +28,10 @@ class VerificationViewModel @Inject constructor(repo: Repo, apiRequestManager: A
     val validateOTPLiveData:LiveData<ViewState<ValidateUserResponse>>
         get() = _validateOTPLiveData
 
-    fun sendOTP(request:SendOTPRequest) = apiRequestManager.requestApi(repo.sendOTP(request),_sendOTPLiveData)
+    fun sendOTP(lang:String,request:SendOTPRequest) = apiRequestManager.requestApi(repo.sendOTP(lang,request),_sendOTPLiveData)
 
-    fun validateUser(request: ValidateUserRequest) = apiRequestManager.requestApi(repo.validateUser(request),_validateUserLiveData)
+    fun validateUser(lang: String,request: ValidateUserRequest) = apiRequestManager.requestApi(repo.validateUser(lang,request),_validateUserLiveData)
 
-    fun validateOTP(request: ValidateUserRequest) = apiRequestManager.requestApi(repo.validateOTP(request),_validateOTPLiveData)
+    fun validateOTP(lang: String,request: ValidateUserRequest) = apiRequestManager.requestApi(repo.validateOTP(lang,request),_validateOTPLiveData)
 
 }

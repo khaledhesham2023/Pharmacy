@@ -90,7 +90,7 @@
             android:layout_margin="8dp"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:text="@{order.status}"
+            android:text="@{order.status.statusName}"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/order_status_label"
             app:layout_constraintTop_toBottomOf="@+id/order_time_label"

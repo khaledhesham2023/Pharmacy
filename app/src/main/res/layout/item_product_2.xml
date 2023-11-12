@@ -7,7 +7,7 @@
 
         <variable
             name="product"
-            type="com.khaledamin.pharmacy_android.ui.model.Product" />
+            type="com.khaledamin.pharmacy_android.ui.model.OrderItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
 
         <ImageView
             android:id="@+id/image"
-            imgUrl="@{product.image}"
+            imgUrl="@{product.product.image}"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@{product.name}"
+            android:text="@{product.product.name}"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@{product.activePrincipal}"
+            android:text="@{product.product.activePrincipal}"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@id/image"

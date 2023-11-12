@@ -3,10 +3,10 @@ package com.khaledamin.pharmacy_android.ui.model
 import com.google.gson.annotations.SerializedName
 
 data class SubCategory(
-    @SerializedName("id")
+    @SerializedName("subcategoryId")
     val subCategoryId: Long?,
-    @SerializedName("title")
+    @SerializedName("subcategoryTitle")
     val title: String?,
-    @SerializedName("products")
-    val products: List<Product>
+//    @SerializedName("products")
+//    val products: List<Product>
 )

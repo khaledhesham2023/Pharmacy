@@ -3,7 +3,7 @@ package com.khaledamin.pharmacy_android.utils
 object Constants {
 
     const val USER_PHONE = "USER_PHONE"
-    const val BASE_URL = "http://192.168.1.8:8084/rest/V1/"
+    const val BASE_URL = "http://192.168.1.13:8084/rest/V1/"
     const val SHARED_PREFERENCES = "SHARED_PREFERENCES"
     const val BEARER_TOKEN = "BEARER_TOKEN"
     const val IS_FIRST_TIME = "IS_FIRST_TIME"
@@ -23,4 +23,12 @@ object Constants {
     const val BUILDING_VIEW = 20f
     const val API_KEY = "AIzaSyCpNOWJonTlSnkyoe78OkBlzxKCGrS7DSU"
     const val EXCEPTION_REQUEST_CODE = 50
+    const val USER_PASSWORD = "PASSWORD"
+    const val CATEGORY_ID = "category_id"
+    const val IS_VERIFIED = "is_verified"
+    const val CURRENT_SCREEN = "screen"
+    const val FIRST_NAME = "firstname"
+    const val LAST_NAME = "lastname"
+    const val E_MAIL = "email"
+    const val DEFAULT_ADDRESS = "default_address"
 }

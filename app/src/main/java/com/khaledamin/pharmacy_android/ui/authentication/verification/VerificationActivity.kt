@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.ActivityVerificationBinding
+import com.khaledamin.pharmacy_android.ui.authentication.login.LoginActivity
 import com.khaledamin.pharmacy_android.ui.authentication.reset.PasswordActivity
 import com.khaledamin.pharmacy_android.ui.base.BaseActivityWithViewModel
 import com.khaledamin.pharmacy_android.ui.model.requests.SendOTPRequest
@@ -79,7 +80,8 @@ class VerificationActivity :
         viewBinding.thirdNumber.addTextChangedListener(textWatcher)
         viewBinding.fourthNumber.addTextChangedListener(textWatcher)
         phoneNumber = "+2" + viewModel.getPhone()
-        viewModel.sendOTP(SendOTPRequest(phoneNumber))
+        viewModel.sendOTP(viewModel.getLanguage()!!, SendOTPRequest(phoneNumber))
+        viewBinding.customerPhone.text = viewModel.getPhone()
     }
 
     override val layout: Int
@@ -89,9 +91,10 @@ class VerificationActivity :
     private fun showTimer() {
         enableResend = false
         viewBinding.resendCode.setTextColor(resources.getColor(android.R.color.holo_red_dark))
-        object : CountDownTimer(ONE_MINUTE * 1000L,ONE_SECOND) {
+        object : CountDownTimer(ONE_MINUTE * 1000L, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
-                viewBinding.resendCode.text = getString(R.string.resendCodeAfter,millisUntilFinished/1000)
+                viewBinding.resendCode.text =
+                    getString(R.string.resendCodeAfter, millisUntilFinished / 1000)
                 viewBinding.resendCode.isClickable = false
             }
 
@@ -134,8 +137,7 @@ class VerificationActivity :
 
                 is ViewState.Success -> {
                     Toast.makeText(this, it.data.message, Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@VerificationActivity,PasswordActivity::class.java))
-                    finish()
+                    goBackToNextScreen()
                     loadingDialog.dismiss()
                 }
 
@@ -145,6 +147,40 @@ class VerificationActivity :
                 }
             }
         })
+        viewModel.validateUserLiveData.observe(this, Observer {
+            when(it){
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+                is ViewState.Success -> {
+                    Toast.makeText(this,it.data.message,Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@VerificationActivity, LoginActivity::class.java))
+                    finish()
+                    loadingDialog.dismiss()
+                }
+                is ViewState.Error -> {
+                    Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+                    loadingDialog.dismiss()
+                }
+
+            }
+        })
+    }
+
+    private fun goBackToNextScreen() {
+        when (viewModel.getCurrentActivity()) {
+            "login" -> {
+                viewModel.validateUser(
+                    viewModel.getLanguage()!!,
+                    ValidateUserRequest(otp, viewModel.getPhone())
+                )
+            }
+
+            "reset" -> {
+                startActivity(Intent(this@VerificationActivity, PasswordActivity::class.java))
+                finish()
+            }
+        }
     }
 
     override fun setupListeners() {
@@ -152,8 +188,8 @@ class VerificationActivity :
             finish()
         }
         viewBinding.resendCode.setOnClickListener {
-            if (enableResend){
-                viewModel.sendOTP(SendOTPRequest(phoneNumber))
+            if (enableResend) {
+                viewModel.sendOTP(viewModel.getLanguage()!!, SendOTPRequest(phoneNumber))
             }
         }
         viewBinding.verifyButton.setOnClickListener {
@@ -161,9 +197,12 @@ class VerificationActivity :
                 .plus(viewBinding.secondNumber.text.toString())
                 .plus(viewBinding.thirdNumber.text.toString())
                 .plus(viewBinding.fourthNumber.text.toString())
-            if (otpEntry == otp){
-                Log.i("LOGGGG",otp + otpEntry)
-                viewModel.validateOTP(ValidateUserRequest(otpEntry,viewModel.getPhone()))
+            if (otpEntry == otp) {
+                Log.i("LOGGGG", otp + otpEntry)
+                viewModel.validateOTP(
+                    viewModel.getLanguage()!!,
+                    ValidateUserRequest(otpEntry, viewModel.getPhone())
+                )
             }
         }
     }

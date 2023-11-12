@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="@{order.status}"
+                    android:text="@{order.status.statusName}"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -177,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="14dp"
-                    android:text="@{order.address.type}"
+                    android:text="@{order.address.type.typeName}"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -232,7 +232,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="@{order.payment}" />
+                    android:text="@{order.payment.paymentName}" />
 
                 <TextView
                     android:id="@+id/total_label"
@@ -300,7 +300,7 @@
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/subtotal_value"
-                    android:text="@{String.valueOf(order.shipping) + ` L.E`}" />
+                    android:text="@{String.valueOf(order.shipping.shippingAmount * order.subtotal) + ` L.E`}" />
 
                 <TextView
                     android:id="@+id/discount_label"

@@ -22,5 +22,8 @@ constructor(repo: Repo, apiRequestManager: ApiRequestManager) : BaseViewModel<Re
     val signupLiveData: LiveData<ViewState<SignupResponse>>
         get() = _signupLiveData
 
-    fun signup(request: SignupRequest) = apiRequestManager.requestApi(repo.signup(request),_signupLiveData)
+    fun signup(request: SignupRequest,language:String) = apiRequestManager.requestApi(repo.signup(request,language),_signupLiveData)
+
+    fun setIsVerified(isVerified:Boolean) = repo.setIsVerified(isVerified)
+    fun getIsVerified() = repo.getIsVerified()
 }

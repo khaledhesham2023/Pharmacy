@@ -151,4 +151,19 @@
     <string name="no_orders_found">No Orders found</string>
     <string name="error_loading_orders">Error during loading orders, ..try again ?</string>
     <string name="confirm_create_order">Are you sure you want to create a new order ?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change">Change</string>
+    <string name="save">Save</string>
+    <string name="confirm_edit">Are you sure you want to confirm editing your account ?</string>
+    <string name="lastname_error">Lastname is required</string>
+    <string name="enter_your_phone">Enter your phone</string>
+    <string name="old_password">Old Password</string>
+    <string name="old_password_required">Old Password is required</string>
+    <string name="new_password_required">New Password required</string>
+    <string name="confirm_your_password">Confirm your password</string>
+    <string name="my_prescription">Prescriptions</string>
+    <string name="nursing_care">Nursing Care</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="please_confirm">Please confirm your password</string>
 </resources>

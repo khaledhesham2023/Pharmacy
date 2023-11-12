@@ -11,10 +11,10 @@ import com.khaledamin.pharmacy_android.ui.base.BaseAdapter
 import com.khaledamin.pharmacy_android.ui.model.Category
 import com.khaledamin.pharmacy_android.ui.model.CategoryItem
 
-class CategoryAdapter(data: List<CategoryItem>, private val callback: CategoryItemCallback) :
-    BaseAdapter<CategoryItem, ItemCategory2Binding, CategoryAdapter.CategoryViewHolder>(data) {
+class CategoryAdapter(data: List<Category>, private val callback: CategoryItemCallback) :
+    BaseAdapter<Category, ItemCategory2Binding, CategoryAdapter.CategoryViewHolder>(data) {
 
-    var selectedCategory:CategoryItem? = null
+    var selectedCategory:Category? = null
     inner class CategoryViewHolder(val binding: ItemCategory2Binding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -43,13 +43,16 @@ class CategoryAdapter(data: List<CategoryItem>, private val callback: CategoryIt
         return CategoryViewHolder(getItemViewBinding(parent))
     }
 
+    var categories: List<Category>
+        get() = data
+        set(value) {}
+
     override fun onBindViewHolder(holder: CategoryAdapter.CategoryViewHolder, position: Int) {
         holder.binding.category = data[position]
         if (data[position].isSelected){
-            holder.binding.tabLine.setBackgroundColor(Color.BLUE)
             holder.binding.tabLine.visibility = View.VISIBLE
         } else {
-            holder.binding.tabLine.visibility = View.GONE
+            holder.binding.tabLine.visibility = View.INVISIBLE
         }
     }
 

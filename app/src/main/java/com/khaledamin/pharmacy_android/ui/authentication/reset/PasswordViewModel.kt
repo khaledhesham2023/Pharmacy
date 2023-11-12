@@ -19,5 +19,5 @@ class PasswordViewModel @Inject constructor(repo: Repo, apiRequestManager: ApiRe
     val resetPasswordLiveData: LiveData<ViewState<BaseResponse>>
         get() = _resetPasswordLiveData
 
-    fun resetPassword(request: ResetPasswordRequest) = apiRequestManager.requestApi(repo.resetPassword(request),_resetPasswordLiveData)
+    fun resetPassword(lang:String,request: ResetPasswordRequest) = apiRequestManager.requestApi(repo.resetPassword(lang,request),_resetPasswordLiveData)
 }

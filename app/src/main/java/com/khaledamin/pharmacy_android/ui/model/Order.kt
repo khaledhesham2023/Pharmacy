@@ -5,32 +5,32 @@ import java.io.Serial
 import java.io.Serializable
 
 data class Order(
-    @SerializedName("id")
-    val id:Long?,
+    @SerializedName("orderId")
+    val id: Long?,
     @SerializedName("dateCreated")
-    val dateCreated:String?,
+    val dateCreated: String?,
     @SerializedName("subtotal")
-    val subtotal:Double?,
+    val subtotal: Double?,
     @SerializedName("shipping")
-    val shipping:Double?,
+    val shipping: Shipping?,
     @SerializedName("total")
-    val total:Double?,
+    val total: Double?,
     @SerializedName("address")
     val address: Address?,
     @SerializedName("discount")
-    val discount:Double?,
+    val discount: Double?,
     @SerializedName("email")
-    val email:String?,
+    val email: String?,
     @SerializedName("firstname")
-    val firstname:String?,
+    val firstname: String?,
     @SerializedName("lastname")
-    val lastname:String?,
+    val lastname: String?,
     @SerializedName("incrementId")
-    val incrementId:String?,
+    val incrementId: String?,
     @SerializedName("products")
-    val products: List<Product>?,
+    val products: List<OrderItem>?,
     @SerializedName("payment")
-    val payment:String?,
-    @SerializedName("status")
-    val status:String?
-):Serializable
+    val payment: Payment?,
+    @SerializedName("orderStatus")
+    val status: OrderStatus?,
+) : Serializable

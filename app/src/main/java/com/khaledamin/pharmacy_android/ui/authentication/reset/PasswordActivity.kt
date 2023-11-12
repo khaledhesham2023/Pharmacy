@@ -51,7 +51,7 @@ class PasswordActivity : BaseActivityWithViewModel<ActivityPasswordBinding, Pass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        removeErrorsWhenEditing(viewBinding.newPasswordLayout)
+        removeErrorsWhenEditing(viewBinding.newPasswordLayout,viewBinding.confirmNewPasswordLayout)
     }
 
     override val layout: Int
@@ -61,6 +61,7 @@ class PasswordActivity : BaseActivityWithViewModel<ActivityPasswordBinding, Pass
         viewBinding.change.setOnClickListener {
             if (isDataOk()) {
                 viewModel.resetPassword(
+                    viewModel.getLanguage()!!,
                     ResetPasswordRequest(
                         viewModel.getPhone(),
                         viewBinding.newPassword.text.toString().trim()
@@ -76,10 +77,20 @@ class PasswordActivity : BaseActivityWithViewModel<ActivityPasswordBinding, Pass
             viewBinding.newPasswordLayout.error = getString(R.string.password_error)
             isDataOk = false
         }
+        if (TextUtils.isEmpty(viewBinding.confirmNewPassword.text.toString().trim())) {
+            viewBinding.confirmNewPasswordLayout.error = getString(R.string.please_confirm)
+            isDataOk = false
+        }
         if (viewBinding.newPassword.text.toString().trim().length < 8) {
             viewBinding.newPasswordLayout.error = getString(R.string.password_length_error)
             isDataOk = false
         }
+        if (viewBinding.newPassword.text.toString() != viewBinding.confirmNewPassword.text.toString()){
+            viewBinding.newPasswordLayout.error = getString(R.string.password_match_error)
+            viewBinding.confirmNewPassword.error = getString(R.string.password_match_error)
+            isDataOk = false
+        }
+
         return isDataOk
     }
 

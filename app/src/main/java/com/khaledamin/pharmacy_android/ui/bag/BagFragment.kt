@@ -11,6 +11,7 @@ import com.khaledamin.pharmacy_android.databinding.FragmentBagBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
 import com.khaledamin.pharmacy_android.ui.dialogs.PaymentTypeDialog
 import com.khaledamin.pharmacy_android.ui.dialogs.ShippingMethodDialog
+import com.khaledamin.pharmacy_android.ui.model.CartItem
 import com.khaledamin.pharmacy_android.ui.model.Payment
 import com.khaledamin.pharmacy_android.ui.model.Product
 import com.khaledamin.pharmacy_android.ui.model.Shipping
@@ -32,6 +33,7 @@ class BagFragment : BaseFragmentWithViewModel<FragmentBagBinding, BagViewModel>(
     private lateinit var shippingMethods: ArrayList<Shipping>
     private var shippingId: Long = 0
     private var paymentId: Long = 0
+    private var total:Double = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +47,7 @@ class BagFragment : BaseFragmentWithViewModel<FragmentBagBinding, BagViewModel>(
 
     override fun setupListeners() {
         viewBinding.addButton.setOnClickListener {
-            findNavController().navigate(BagFragmentDirections.actionBagFragmentToProductsFragment(-1))
+            findNavController().navigate(BagFragmentDirections.actionBagFragmentToProductsFragment(1))
         }
         viewBinding.paymentTypeMenu.setOnClickListener {
             viewModel.getPaymentTypes()
@@ -74,9 +76,14 @@ class BagFragment : BaseFragmentWithViewModel<FragmentBagBinding, BagViewModel>(
                 }
 
                 is ViewState.Success -> {
+                    total = 0.0
                     if (it.data.isNotEmpty()) {
                         viewBinding.emptyView.visibility = View.GONE
                         viewBinding.bagView.visibility = View.VISIBLE
+                        for (cartItem:CartItem in it.data){
+                            total += (cartItem.quantity?.times(cartItem.product!!.packPrice!!)!!)
+                        }
+                        viewBinding.total.text = total.toString().plus(" L.E")
                         bagItemAdapter.updateDataSet(it.data)
                     } else {
                         viewBinding.emptyView.visibility = View.VISIBLE
@@ -273,31 +280,31 @@ class BagFragment : BaseFragmentWithViewModel<FragmentBagBinding, BagViewModel>(
     override val layout: Int
         get() = R.layout.fragment_bag
 
-    override fun onPlusClicked(quantity: Int, product: Product) {
+    override fun onPlusClicked(quantity: Int, cartItem: CartItem) {
         viewModel.updateQuantity(
             AddItemToCartRequest(
                 viewModel.getUser()!!.id!!,
-                product.productId,
+                cartItem.product!!.productId,
                 quantity
             )
         )
     }
 
-    override fun onMinusClicked(quantity: Int, product: Product) {
+    override fun onMinusClicked(quantity: Int, cartItem: CartItem) {
         viewModel.updateQuantity(
             AddItemToCartRequest(
                 viewModel.getUser()!!.id!!,
-                product.productId,
+                cartItem.product!!.productId,
                 quantity
             )
         )
     }
 
-    override fun onProductRemoved(product: Product) {
+    override fun onProductRemoved(cartItem: CartItem) {
         viewModel.removeItemFromCart(
             RemoveItemFromCartRequest(
                 viewModel.getUser()!!.id!!,
-                product.productId
+                cartItem.product!!.productId
             )
         )
     }

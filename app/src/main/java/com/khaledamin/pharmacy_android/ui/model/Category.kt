@@ -1,13 +1,16 @@
 package com.khaledamin.pharmacy_android.ui.model
 
 import com.google.gson.annotations.SerializedName
+import com.khaledamin.pharmacy_android.utils.Selectable
 import java.io.Serializable
 
 data class Category(
-    @SerializedName("id")
+    @SerializedName("categoryId")
     var categoryId:Long?,
-    @SerializedName("categoryTitle")
-    val categoryTitle:String?,
+    @SerializedName("categoryName")
+    var categoryName:String?,
     @SerializedName("categoryImage")
-    val categoryImage: String?
-):Serializable
+    var categoryImage: String?
+):Serializable, Selectable {
+    override var isSelected: Boolean = false
+}

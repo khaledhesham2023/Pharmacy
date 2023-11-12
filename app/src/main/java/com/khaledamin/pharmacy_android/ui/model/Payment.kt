@@ -6,5 +6,7 @@ data class Payment(
     @SerializedName("paymentId")
     val paymentId:Long?,
     @SerializedName("paymentName")
-    val paymentName:String?
+    val paymentName:String?,
+    @SerializedName("paymentIcon")
+    val paymentIcon:String?
 )

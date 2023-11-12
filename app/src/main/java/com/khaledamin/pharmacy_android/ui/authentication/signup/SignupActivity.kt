@@ -40,6 +40,7 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
                 is ViewState.Success -> {
                     Toast.makeText(this,it.data.message,Toast.LENGTH_SHORT).show()
                     viewModel.setFirstTime(it.data.username!!,true)
+                    viewModel.setIsVerified(false)
                     loadingDialog.dismiss()
                     finish()
                 }
@@ -55,7 +56,8 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
                                 viewBinding.customerUsername.text.toString().trim(),
                                 viewBinding.customerPhone.text.toString().trim(),
                                 createEmail(viewBinding.customerEmail.text.toString().trim())
-                            )
+                            ),
+                            viewModel.getLanguage()!!
                         )
                     }
                 }
@@ -77,7 +79,8 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
                         viewBinding.customerUsername.text.toString().trim(),
                         viewBinding.customerPhone.text.toString().trim(),
                         createEmail(viewBinding.customerEmail.text.toString().trim())
-                    )
+                    ),
+                    viewModel.getLanguage()!!
                 )
             }
         }

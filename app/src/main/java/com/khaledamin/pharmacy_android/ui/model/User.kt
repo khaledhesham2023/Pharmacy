@@ -22,5 +22,7 @@ data class User(
     @SerializedName("roles")
     val roles:ArrayList<String>?,
     @SerializedName("addresses")
-    val addresses:ArrayList<Address>?
+    val addresses:ArrayList<Address>?,
+    @SerializedName("verified")
+    val verified:Boolean
 )

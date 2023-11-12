@@ -9,4 +9,5 @@ import javax.inject.Inject
 @HiltViewModel
 class ResetViewModel @Inject constructor(repo: Repo,apiRequestManager: ApiRequestManager):BaseViewModel<Repo>(repo, apiRequestManager) {
 
+    fun saveCurrentActivity(activity: String) = repo.setCurrentActivity(activity)
 }

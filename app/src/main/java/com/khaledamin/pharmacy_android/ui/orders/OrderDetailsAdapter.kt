@@ -5,9 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.ItemProduct2Binding
 import com.khaledamin.pharmacy_android.ui.base.BaseAdapter
+import com.khaledamin.pharmacy_android.ui.model.OrderItem
 import com.khaledamin.pharmacy_android.ui.model.Product
 
-class OrderDetailsAdapter(data:List<Product>) : BaseAdapter<Product,ItemProduct2Binding,OrderDetailsAdapter.OrderDetailsViewHolder>(data) {
+class OrderDetailsAdapter(data:List<OrderItem>) : BaseAdapter<OrderItem,ItemProduct2Binding,OrderDetailsAdapter.OrderDetailsViewHolder>(data) {
 
     inner class OrderDetailsViewHolder(val binding:ItemProduct2Binding) : RecyclerView.ViewHolder(binding.root){
 

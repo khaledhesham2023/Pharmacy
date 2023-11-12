@@ -1,12 +1,13 @@
 package com.khaledamin.pharmacy_android.ui.bag
 
+import com.khaledamin.pharmacy_android.ui.model.CartItem
 import com.khaledamin.pharmacy_android.ui.model.Product
 
 interface BagItemCallback {
 
-    fun onPlusClicked(quantity:Int, product: Product)
+    fun onPlusClicked(quantity:Int, cartItem: CartItem)
 
-    fun onMinusClicked(quantity: Int,product: Product)
+    fun onMinusClicked(quantity: Int,cartItem:CartItem)
 
-    fun onProductRemoved(product: Product)
+    fun onProductRemoved(cartItem: CartItem)
 }

@@ -25,8 +25,8 @@ class AccountFragment : BaseFragmentWithViewModel<FragmentAccountBinding, Accoun
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.isLoggedIn()) {
             viewBinding.name.text =
-                "${viewModel.getUser()!!.firstName} " + "${viewModel.getUser()!!.lastname}"
-            viewBinding.email.text = "${viewModel.getUser()!!.email}"
+                "${viewModel.getFirstname()} " + "${viewModel.getLastname()}"
+            viewBinding.email.text = "${viewModel.getEmail()}"
         } else {
             startActivity(Intent(requireActivity(),LoginActivity::class.java))
             requireActivity().finish()
@@ -74,6 +74,12 @@ class AccountFragment : BaseFragmentWithViewModel<FragmentAccountBinding, Accoun
         }
         viewBinding.ordersGroup.setOnClickListener {
             findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToOrdersFragment())
+        }
+        viewBinding.favoritesLayout.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToFavoritesFragment())
+        }
+        viewBinding.settingsGroup.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToEditAccountFragment())
         }
     }
 

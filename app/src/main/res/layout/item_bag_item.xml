@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="product"
-            type="com.khaledamin.pharmacy_android.ui.model.Product" />
+            name="cartItem"
+            type="com.khaledamin.pharmacy_android.ui.model.CartItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_margin="10dp"
-            imgUrl="@{product.image}"
+            imgUrl="@{cartItem.product.image}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@{product.name}"
+            android:text="@{cartItem.product.name}"
             android:textAlignment="textStart"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@{product.activePrincipal}"
+            android:text="@{cartItem.product.activePrincipal}"
             android:textAlignment="textStart"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="@{String.valueOf(product.quantity)}"
+                android:text="@{String.valueOf(cartItem.quantity)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/minus"
                 app:layout_constraintHorizontal_bias="0.5"

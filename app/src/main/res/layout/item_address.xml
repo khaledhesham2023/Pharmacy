@@ -245,7 +245,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/type_text_background"
             android:padding="10dp"
-            android:text="@{address.type}"
+            android:text="@{address.type.typeName}"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
             android:textStyle="bold"

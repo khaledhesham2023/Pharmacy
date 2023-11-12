@@ -1,10 +1,11 @@
 package com.khaledamin.pharmacy_android.ui.product
 
+//import com.khaledamin.pharmacy_android.ui.categories.CategoriesProductsSharedViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,12 +13,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.FragmentProductsBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
-//import com.khaledamin.pharmacy_android.ui.categories.CategoriesProductsSharedViewModel
+import com.khaledamin.pharmacy_android.ui.model.CartItem
 import com.khaledamin.pharmacy_android.ui.model.Category
-import com.khaledamin.pharmacy_android.ui.model.CategoryItem
 import com.khaledamin.pharmacy_android.ui.model.Product
 import com.khaledamin.pharmacy_android.ui.model.SubCategory
 import com.khaledamin.pharmacy_android.ui.model.requests.AddItemToCartRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.AddToFavoritesRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.FilterRequest
+import com.khaledamin.pharmacy_android.ui.model.requests.ProductsRequest
 import com.khaledamin.pharmacy_android.ui.model.requests.RemoveItemFromCartRequest
 import com.khaledamin.pharmacy_android.utils.DisplayManager.showErrorAlertDialog
 import com.khaledamin.pharmacy_android.utils.ViewState
@@ -33,81 +36,92 @@ class ProductsFragment : BaseFragmentWithViewModel<FragmentProductsBinding, Prod
     private lateinit var subcategoryAdapter: SubcategoryAdapter
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var data: List<Product>
-//    private lateinit var categoriesProductsSharedViewModel: CategoriesProductsSharedViewModel
     private lateinit var subcategories: List<SubCategory>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        categoriesProductsSharedViewModel =
-//            ViewModelProvider(requireActivity())[CategoriesProductsSharedViewModel::class.java]
-    }
+    private lateinit var products: List<Product>
+    private lateinit var cartProducts: List<CartItem>
+    private var page = 0
+    private var maxItems = 5
+    private var subcategoryId: Long = -1L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         data = ArrayList()
-//        subcategories = ArrayList()
+        checkCurrentPage()
         super.onViewCreated(view, savedInstanceState)
         categoryId = ProductsFragmentArgs.fromBundle(requireArguments()).categoryId
-        checkData(data)
         categoryAdapter = CategoryAdapter(ArrayList(), this)
         subcategoryAdapter = SubcategoryAdapter(ArrayList(), this)
         productsAdapter = ProductsAdapter(data, this)
         viewBinding.categories.adapter = categoryAdapter
         viewBinding.categories.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        position = ProductsFragmentArgs.fromBundle(requireArguments()).position
         viewBinding.subcategories.adapter = subcategoryAdapter
         viewBinding.subcategories.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewBinding.products.adapter = productsAdapter
         viewBinding.products.layoutManager = GridLayoutManager(requireContext(), 2)
-        viewModel.getCategoryContents(viewModel.getLanguage()!!)
-        viewModel.getUserCartItems(viewModel.getUser()!!.id!!)
+        viewModel.getCategories()
+        viewBinding.page.text = getPageUI().toString()
+        checkCurrentPage()
     }
 
-    private fun checkData(data: List<Product>) {
-        if (data.isEmpty()) {
-            viewBinding.emptyView.visibility = View.VISIBLE
-            viewBinding.products.visibility = View.GONE
+    private fun checkCurrentPage() {
+        if (page < 1) {
+            viewBinding.left.visibility = View.GONE
         } else {
-            viewBinding.emptyView.visibility = View.GONE
-            viewBinding.products.visibility = View.VISIBLE
+            viewBinding.left.visibility = View.VISIBLE
         }
-
+        if (data.size < maxItems || data.isEmpty()) {
+            viewBinding.right.visibility = View.GONE
+        } else {
+            viewBinding.right.visibility = View.VISIBLE
+        }
     }
+
+
+//    private fun checkData(data: List<Product>) {
+//        if (data.isEmpty()) {
+//            viewBinding.emptyView.visibility = View.VISIBLE
+//            viewBinding.products.visibility = View.GONE
+//        } else {
+//            viewBinding.emptyView.visibility = View.GONE
+//            viewBinding.products.visibility = View.VISIBLE
+//        }
+//
+//    }
 
     override val viewModelClass: Class<ProductsViewModel>
         get() = ProductsViewModel::class.java
 
     override fun setupObservers() {
-        viewModel.getCategoryContentsResponse.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is ViewState.Loading -> {
-                    loadingDialog.show()
-                }
-
-                is ViewState.Success -> {
-                    selectDefaultCategory(it.data.categories)
-                    categoryAdapter.updateDataSet(it.data.categories)
-//                    subcategories = it.data.categories[position].subCategories
-//                    onCategoryItemClicked(CategoryItem(category.categoryId!!,category.categoryTitle!!,it.data.categories[position].subCategories),position)
-                    loadingDialog.dismiss()
-                }
-
-                is ViewState.Error -> {
-                    showErrorAlertDialog(
-                        requireContext(),
-                        R.string.error,
-                        getString(R.string.error_loading_categories),
-                        R.string.retry,
-                        R.string.cancel
-                    ) { _, _ ->
-                        viewModel.getCategoryContents(viewModel.getLanguage()!!)
-
-                    }
-                    loadingDialog.dismiss()
-                }
-            }
-        })
+//        viewModel.getCategoryContentsResponse.observe(viewLifecycleOwner, Observer {
+//            when (it) {
+//                is ViewState.Loading -> {
+//                    loadingDialog.show()
+//                }
+//
+//                is ViewState.Success -> {
+//                    selectDefaultCategory(it.data.categories)
+//                    categoryAdapter.updateDataSet(it.data.categories)
+//                    viewModel.getUserCartItems(viewModel.getUser()!!.id!!)
+//                    viewModel.getUserFavorites(viewModel.getUser()!!.id!!)
+//                    loadingDialog.dismiss()
+//                }
+//
+//                is ViewState.Error -> {
+//                    showErrorAlertDialog(
+//                        requireContext(),
+//                        R.string.error,
+//                        getString(R.string.error_loading_categories),
+//                        R.string.retry,
+//                        R.string.cancel
+//                    ) { _, _ ->
+//                        viewModel.getCategoryContents(viewModel.getLanguage()!!)
+//
+//                    }
+//                    loadingDialog.dismiss()
+//                }
+//            }
+//        })
         viewModel.addItemToCartLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is ViewState.Loading -> {
@@ -199,6 +213,8 @@ class ProductsFragment : BaseFragmentWithViewModel<FragmentProductsBinding, Prod
                 }
 
                 is ViewState.Success -> {
+                    cartProducts = it.data
+                    modifyQuantities(cartProducts)
                     loadingDialog.dismiss()
                 }
 
@@ -213,19 +229,223 @@ class ProductsFragment : BaseFragmentWithViewModel<FragmentProductsBinding, Prod
                 }
             }
         })
-//        categoriesProductsSharedViewModel.categoryProductsLiveData.observe(viewLifecycleOwner,
-//            Observer {
-//                category = it.category
-//                position = it.position
-//            })
+        viewModel.addToFavorites.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+
+                is ViewState.Success -> {
+                    Snackbar.make(
+                        requireContext(),
+                        viewBinding.root,
+                        it.data.message!!,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    Snackbar.make(
+                        requireContext(),
+                        viewBinding.root,
+                        it.message,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+        viewModel.removeFromFavoritesLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+
+                is ViewState.Success -> {
+                    Snackbar.make(
+                        requireContext(),
+                        viewBinding.root,
+                        it.data.message!!,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    Snackbar.make(
+                        requireContext(),
+                        viewBinding.root,
+                        it.message,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+        viewModel.getUserFavoritesLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+
+                is ViewState.Success -> {
+                    setUserProductsAsFavorites(it.data)
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+        viewModel.getProductsLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+
+                is ViewState.Success -> {
+                    data = it.data
+                    productsAdapter.updateDataSet(data)
+                    checkCurrentPage()
+                    viewModel.getUserFavorites(viewModel.getUser()!!.id!!)
+                    viewModel.getUserCartItems(viewModel.getUser()!!.id!!)
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    showErrorAlertDialog(
+                        requireContext(),
+                        R.string.error,
+                        it.message,
+                        R.string.retry,
+                        R.string.cancel
+                    ) { _, _ ->
+                        viewModel.getProducts(ProductsRequest(categoryId, page))
+                    }
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+        viewModel.getCategoriesLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+
+                is ViewState.Success -> {
+                    selectDefaultCategory(it.data)
+                    categoryAdapter.updateDataSet(it.data)
+                    viewModel.getSubcategoriesByCategory(categoryId)
+                    viewModel.getProducts(ProductsRequest(categoryId, page))
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    showErrorAlertDialog(
+                        requireContext(),
+                        R.string.error,
+                        it.message,
+                        R.string.retry,
+                        R.string.cancel
+                    ) { _, _ ->
+                        viewModel.getCategories()
+                    }
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+        viewModel.getSubcategoryByCategoryIdLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+
+                is ViewState.Success -> {
+                    subcategoryAdapter.updateDataSet(it.data)
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+        viewModel.getProductsBySubcategoryLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+
+                is ViewState.Success -> {
+                    data = it.data
+                    Log.i("TAGG",data.size.toString())
+                    productsAdapter.updateDataSet(data)
+                    checkCurrentPage()
+                    viewModel.getUserFavorites(viewModel.getUser()!!.id!!)
+                    viewModel.getUserCartItems(viewModel.getUser()!!.id!!)
+                    loadingDialog.dismiss()
+                }
+
+                is ViewState.Error -> {
+                    showErrorAlertDialog(
+                        requireContext(),
+                        R.string.error,
+                        it.message,
+                        R.string.retry,
+                        R.string.cancel
+                    ) { _, _ ->
+                        viewModel.getProductsBySubcategory(FilterRequest(subcategoryId, page))
+                    }
+                }
+            }
+        })
     }
 
-    private fun selectDefaultCategory(data:List<CategoryItem>) {
-        for (category in data){
-            if(category.id == categoryId){
-                Log.i("TAGG","category ${data.indexOf(category)} checked")
+    private fun setUserProductsAsFavorites(likedProducts: List<Product>) {
+        val products = data
+        for (likedProduct in likedProducts) {
+            for (product in products) {
+                if (product.productId == likedProduct.productId) {
+                    product.isLiked = true
+                    productsAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
+    private fun modifyQuantities(cartProducts: List<CartItem>) {
+        for (cartProduct in cartProducts) {
+            for (product in data) {
+                if (cartProduct.product!!.productId == product.productId) {
+                    product.quantity = cartProduct.quantity!!
+                }
+            }
+        }
+        productsAdapter.notifyDataSetChanged()
+    }
+
+    private fun getPageUI(): Int {
+        return page + 1
+    }
+//    private fun getAllProducts(): List<Product> {
+//        val products = ArrayList<Product>()
+//        for (category in categoryAdapter.categories) {
+//            for (subcategory in category.subCategories) {
+//                products.addAll(subcategory.products)
+//            }
+//        }
+//        return products
+//    }
+
+    private fun selectDefaultCategory(data: List<Category>) {
+        for (category in data) {
+            if (category.categoryId == categoryId) {
                 category.isSelected = true
-                onCategoryItemClicked(category,data.indexOf(category))
+                categoryId = category.categoryId!!
+                categoryAdapter.selectedCategory = category
+                onCategoryItemClicked(category, data.indexOf(category))
                 break
             }
         }
@@ -235,35 +455,90 @@ class ProductsFragment : BaseFragmentWithViewModel<FragmentProductsBinding, Prod
         get() = R.layout.fragment_products
 
     override fun setupListeners() {
-//        TODO("Not yet implemented")
-    }
+        viewBinding.left.setOnClickListener {
+            if (subcategoryId == -1L) {
+                if (page < 1) {
+                    viewBinding.page.text = getPageUI().toString()
+                } else {
+                    page--
+                    viewBinding.page.text = getPageUI().toString()
+                    viewModel.getProducts(ProductsRequest(categoryId, page))
+                }
+            } else {
+                if (page < 1) {
+                    viewBinding.page.text = getPageUI().toString()
+                } else {
+                    page--
+                    viewModel.getProductsBySubcategory(FilterRequest(subcategoryId, page))
+                    viewBinding.page.text = getPageUI().toString()
+                }
+            }
 
-    override fun onCategoryItemClicked(categoryItem: CategoryItem, position: Int) {
-        viewBinding.categories.scrollToPosition(position)
-        productsAdapter.updateDataSet(ArrayList())
-//        category.categoryId = categoryItem.id
-        if (categoryItem.subCategories.isEmpty()) {
-            data = ArrayList()
-            checkData(data)
-            productsAdapter.updateDataSet(data)
-            subcategoryAdapter.updateDataSet(ArrayList())
-        } else {
-            subcategoryAdapter.updateDataSet(categoryItem.subCategories)
+        }
+        viewBinding.right.setOnClickListener {
+            if (subcategoryId == -1L) {
+                page++
+                viewModel.getProducts(ProductsRequest(categoryId, page))
+                viewBinding.page.text = getPageUI().toString()
+                checkCurrentPage()
+            } else {
+                page++
+                viewModel.getProductsBySubcategory(FilterRequest(subcategoryId, page))
+                viewBinding.page.text = getPageUI().toString()
+                checkCurrentPage()
+            }
+
         }
     }
+
+
+    override fun onCategoryItemClicked(categoryItem: Category, position: Int) {
+        viewBinding.categories.scrollToPosition(position)
+        categoryId = categoryItem.categoryId!!
+        page = 0
+        viewBinding.page.text = getPageUI().toString()
+        viewModel.getSubcategoriesByCategory(categoryId)
+        viewModel.getProducts(ProductsRequest(categoryId, page))
+//        productsAdapter.updateDataSet(ArrayList())
+//        if (categoryItem.subCategories.isEmpty()) {
+//            data = ArrayList()
+//            checkData(data)
+//            productsAdapter.updateDataSet(data)
+//            subcategoryAdapter.updateDataSet(ArrayList())
+//        } else {
+//            subcategoryAdapter.updateDataSet(categoryItem.subCategories)
+////            data = extractProducts(categoryItem.subCategories)
+//            checkData(data)
+//            productsAdapter.updateDataSet(data)
+//        }
+    }
+
+//    private fun extractProducts(subcategories: List<SubCategory>): List<Product> {
+//        val products = ArrayList<Product>()
+//        for (subcategory in subcategories) {
+//            products.addAll(subcategory.products)
+//        }
+//        return products
+//    }
 
 
     override fun onSubcategoryClicked(subCategory: SubCategory, position: Int) {
+        productsAdapter.updateDataSet(ArrayList())
+        subcategoryId = subCategory.subCategoryId!!
         viewBinding.subcategories.scrollToPosition(position)
-        if (subCategory.products.isEmpty()) {
-            data = ArrayList()
-            checkData(data)
-            productsAdapter.updateDataSet(data)
-        } else {
-            data = subCategory.products
-            checkData(data)
-            productsAdapter.updateDataSet(data)
-        }
+        page = 0
+        viewBinding.page.text = getPageUI().toString()
+        checkCurrentPage()
+        viewModel.getProductsBySubcategory(FilterRequest(subcategoryId, page))
+//        if (subCategory.products.isEmpty()) {
+//            data = ArrayList()
+//            checkData(data)
+//            productsAdapter.updateDataSet(data)
+//        } else {
+//            data = subCategory.products
+//            checkData(data)
+//            productsAdapter.updateDataSet(data)
+//        }
     }
 
     override fun onProductClicked(product: Product) {
@@ -307,6 +582,24 @@ class ProductsFragment : BaseFragmentWithViewModel<FragmentProductsBinding, Prod
     override fun onProductRemoved(product: Product) {
         viewModel.removeItemFromCart(
             RemoveItemFromCartRequest(
+                viewModel.getUser()!!.id!!,
+                product.productId
+            )
+        )
+    }
+
+    override fun onProductLikeClicked(product: Product) {
+        viewModel.addToFavorites(
+            AddToFavoritesRequest(
+                viewModel.getUser()!!.id!!,
+                product.productId
+            )
+        )
+    }
+
+    override fun onProductDislikeClicked(product: Product) {
+        viewModel.removeFromFavorites(
+            AddToFavoritesRequest(
                 viewModel.getUser()!!.id!!,
                 product.productId
             )

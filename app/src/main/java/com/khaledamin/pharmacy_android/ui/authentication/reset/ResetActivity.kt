@@ -27,7 +27,9 @@ class ResetActivity : BaseActivityWithViewModel<ActivityResetBinding, ResetViewM
         viewBinding.reset.setOnClickListener {
             if (isDataOk()) {
                 viewModel.savePhone(viewBinding.mobileNumber.text.toString())
+                viewModel.saveCurrentActivity("reset")
                 startActivity(Intent(this@ResetActivity, VerificationActivity::class.java))
+                finish()
             }
         }
     }

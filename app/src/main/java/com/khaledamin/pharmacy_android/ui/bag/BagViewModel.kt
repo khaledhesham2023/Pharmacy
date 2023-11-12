@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.khaledamin.pharmacy_android.datastore.local.repo.Repo
 import com.khaledamin.pharmacy_android.ui.base.BaseViewModel
+import com.khaledamin.pharmacy_android.ui.model.CartItem
 import com.khaledamin.pharmacy_android.ui.model.Payment
 import com.khaledamin.pharmacy_android.ui.model.Product
 import com.khaledamin.pharmacy_android.ui.model.Shipping
@@ -29,8 +30,8 @@ constructor(repo: Repo, apiRequestManager: ApiRequestManager) :
     val updateQuantityLiveData: LiveData<ViewState<BaseResponse>>
         get() = _updateQuantityLiveData
 
-    private var _getUserCartItemsLiveData = MutableLiveData<ViewState<List<Product>>>()
-    val getUserCartItemsLiveData: LiveData<ViewState<List<Product>>>
+    private var _getUserCartItemsLiveData = MutableLiveData<ViewState<List<CartItem>>>()
+    val getUserCartItemsLiveData: LiveData<ViewState<List<CartItem>>>
         get() = _getUserCartItemsLiveData
 
     private var _removeItemFromCartLiveData = MutableLiveData<ViewState<BaseResponse>>()

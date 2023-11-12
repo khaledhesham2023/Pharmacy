@@ -10,6 +10,7 @@ import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.ActivityLoginBinding
 import com.khaledamin.pharmacy_android.ui.authentication.reset.ResetActivity
 import com.khaledamin.pharmacy_android.ui.authentication.signup.SignupActivity
+import com.khaledamin.pharmacy_android.ui.authentication.verification.VerificationActivity
 import com.khaledamin.pharmacy_android.ui.base.BaseActivityWithViewModel
 import com.khaledamin.pharmacy_android.ui.main.MainActivity
 import com.khaledamin.pharmacy_android.ui.model.requests.LoginRequest
@@ -40,21 +41,34 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
                         Toast.makeText(this, it.data.message, Toast.LENGTH_SHORT).show()
                         loadingDialog.dismiss()
                     } else {
-                        if (viewModel.isFirstTime(it.data.user.username!!)) {
+                        if (viewModel.isFirstTime(it.data.user.username!!) && it.data.user.verified) {
                             viewModel.saveBearerToken(it.data.user.token!!)
                             viewModel.setLoggedIn(true)
+                            viewModel.saveFirstName(it.data.user.firstName!!)
+                            viewModel.saveLastname(it.data.user.lastname!!)
+                            viewModel.saveEmail(it.data.user.email!!)
                             viewModel.saveUser(it.data.user)
                             viewModel.saveUserName(it.data.user.username)
                             viewModel.savePhone(it.data.user.phone)
+                            viewModel.savePassword(viewBinding.password.text.toString().trim())
                             loadingDialog.dismiss()
                             startActivity(Intent(this@LoginActivity, FirstTimeActivity::class.java))
                             finish()
+                        } else if (!it.data.user.verified) {
+                            viewModel.savePhone(it.data.user.phone)
+                            viewModel.setCurrentActivity("login")
+                            startActivity(Intent(this,VerificationActivity::class.java))
                         } else {
                             viewModel.setFirstTime(it.data.user.username, false)
                             viewModel.saveBearerToken(it.data.user.token!!)
                             viewModel.setLoggedIn(true)
                             viewModel.savePhone(it.data.user.phone)
+                            viewModel.saveFirstName(it.data.user.firstName!!)
+                            viewModel.saveLastname(it.data.user.lastname!!)
+                            viewModel.saveEmail(it.data.user.email!!)
+                            viewModel.savePassword(viewBinding.password.text.toString().trim())
                             viewModel.saveUser(it.data.user)
+                            viewModel.saveUserName(it.data.user.username)
                             loadingDialog.dismiss()
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                             finish()

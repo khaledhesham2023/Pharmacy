@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.khaledamin.pharmacy_android.datastore.local.repo.Repo
 import com.khaledamin.pharmacy_android.ui.base.BaseViewModel
 import com.khaledamin.pharmacy_android.ui.model.Order
+import com.khaledamin.pharmacy_android.ui.model.requests.ReorderRequest
 import com.khaledamin.pharmacy_android.ui.model.responses.ReorderResponse
 import com.khaledamin.pharmacy_android.utils.ApiRequestManager
 import com.khaledamin.pharmacy_android.utils.ViewState
@@ -30,7 +31,7 @@ class OrderViewModel @Inject constructor(repo: Repo,apiRequestManager: ApiReques
 
     fun getPreviousOrders(id: Long) = apiRequestManager.requestApi(repo.getPreviousOrders(id),_getPreviousOrdersLiveData)
 
-    fun reorder(userId:Long,orderId:Long) = apiRequestManager.requestApi(repo.reorder(userId,orderId),_reorderLiveData)
+    fun reorder(request:ReorderRequest) = apiRequestManager.requestApi(repo.reorder(request),_reorderLiveData)
 
 
 }

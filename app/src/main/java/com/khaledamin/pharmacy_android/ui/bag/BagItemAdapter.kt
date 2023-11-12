@@ -5,11 +5,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.khaledamin.pharmacy_android.R
 import com.khaledamin.pharmacy_android.databinding.ItemBagItemBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseAdapter
+import com.khaledamin.pharmacy_android.ui.model.CartItem
 import com.khaledamin.pharmacy_android.ui.model.Product
 import com.khaledamin.pharmacy_android.ui.product.ProductCallback
 
-class BagItemAdapter(data: List<Product>, private val callback: BagItemCallback) :
-    BaseAdapter<Product, ItemBagItemBinding, BagItemAdapter.BagItemViewHolder>(data) {
+class BagItemAdapter(data: List<CartItem>, private val callback: BagItemCallback) :
+    BaseAdapter<CartItem, ItemBagItemBinding, BagItemAdapter.BagItemViewHolder>(data) {
 
     inner class BagItemViewHolder(val binding: ItemBagItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -45,7 +46,7 @@ class BagItemAdapter(data: List<Product>, private val callback: BagItemCallback)
     }
 
     override fun onBindViewHolder(holder: BagItemViewHolder, position: Int) {
-        holder.binding.product = data[position]
+        holder.binding.cartItem = data[position]
     }
 
 }

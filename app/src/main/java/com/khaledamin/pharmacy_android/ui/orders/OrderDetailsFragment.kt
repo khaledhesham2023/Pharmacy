@@ -14,6 +14,7 @@ import com.khaledamin.pharmacy_android.databinding.FragmentOrderDetailsBinding
 import com.khaledamin.pharmacy_android.ui.base.BaseFragment
 import com.khaledamin.pharmacy_android.ui.base.BaseFragmentWithViewModel
 import com.khaledamin.pharmacy_android.ui.model.Order
+import com.khaledamin.pharmacy_android.ui.model.requests.ReorderRequest
 import com.khaledamin.pharmacy_android.utils.DisplayManager.showAlertDialog
 import com.khaledamin.pharmacy_android.utils.DisplayManager.showErrorAlertDialog
 import com.khaledamin.pharmacy_android.utils.ViewState
@@ -88,7 +89,7 @@ class OrderDetailsFragment :
                 is ViewState.Error -> {
                     showErrorAlertDialog(requireContext(),R.string.error,it.message,R.string.retry,R.string.cancel){
                         _,_->
-                        viewModel.reorder(viewModel.getUser()!!.id!!,order.id!!)
+                        viewModel.reorder(ReorderRequest(order.id!!,viewModel.getUser()!!.id!!))
                     }
                     loadingDialog.dismiss()
                 }
@@ -116,7 +117,7 @@ class OrderDetailsFragment :
                 R.string.confirm,
                 R.string.cancel
             ) { _, _ ->
-                viewModel.reorder(viewModel.getUser()!!.id!!,order.id!!)
+                viewModel.reorder(ReorderRequest(order.id!!,viewModel.getUser()!!.id!!))
             }
         }
     }

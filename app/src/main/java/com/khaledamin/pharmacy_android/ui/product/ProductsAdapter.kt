@@ -14,29 +14,39 @@ class ProductsAdapter(data: List<Product>, private val productCallback: ProductC
     inner class ProductsViewHolder(val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            var quantity = 0
-            binding.quantityGroup.visibility = View.GONE
+            binding.root.setOnClickListener {
+                productCallback.onProductClicked(data[layoutPosition])
+            }
             binding.addCartButton.setOnClickListener {
-                quantity ++
-                binding.addCartButton.visibility = View.GONE
-                binding.quantityGroup.visibility = View.VISIBLE
-                binding.quantity.text = quantity.toString()
+                data[layoutPosition].quantity++
                 productCallback.onProductAdded(data[layoutPosition])
+                notifyItemChanged(layoutPosition)
             }
             binding.plus.setOnClickListener {
-                quantity ++
-                productCallback.onPlusClicked(data[layoutPosition],quantity)
-                binding.quantity.text = quantity.toString()
+                data[layoutPosition].quantity++
+                productCallback.onPlusClicked(data[layoutPosition], data[layoutPosition].quantity)
+                notifyItemChanged(layoutPosition)
             }
             binding.minus.setOnClickListener {
-                if (quantity == 1){
-                    binding.quantityGroup.visibility = View.GONE
-                    binding.addCartButton.visibility = View.VISIBLE
+                data[layoutPosition].quantity--
+                if (data[layoutPosition].quantity < 1) {
+                    productCallback.onProductRemoved(data[layoutPosition])
                 } else {
-                    quantity --
-                    productCallback.onMinusClicked(data[layoutPosition],quantity)
-                    binding.quantity.text = quantity.toString()
+                    productCallback.onMinusClicked(
+                        data[layoutPosition],
+                        data[layoutPosition].quantity
+                    )
                 }
+                notifyItemChanged(layoutPosition)
+            }
+            binding.likeIcon.setOnClickListener {
+                data[layoutPosition].isLiked = !data[layoutPosition].isLiked
+                if (data[layoutPosition].isLiked) {
+                    productCallback.onProductLikeClicked(data[layoutPosition])
+                } else {
+                    productCallback.onProductDislikeClicked(data[layoutPosition])
+                }
+                notifyItemChanged(layoutPosition)
             }
         }
     }
@@ -50,10 +60,18 @@ class ProductsAdapter(data: List<Product>, private val productCallback: ProductC
 
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
         holder.binding.product = data[position]
-    }
-
-    fun setCartProductsQuantities(data: List<Product>) {
-        this.data = data
-
+        if (data[position].isLiked) {
+            holder.binding.likeIcon.setImageResource(R.drawable.ic_heart_active)
+        } else {
+            holder.binding.likeIcon.setImageResource(R.drawable.ic_heart_inactive)
+        }
+        if (data[position].quantity > 0) {
+            holder.binding.addCartButton.visibility = View.GONE
+            holder.binding.quantityGroup.visibility = View.VISIBLE
+            holder.binding.quantity.text = data[position].quantity.toString()
+        } else {
+            holder.binding.addCartButton.visibility = View.VISIBLE
+            holder.binding.quantityGroup.visibility = View.GONE
+        }
     }
 }

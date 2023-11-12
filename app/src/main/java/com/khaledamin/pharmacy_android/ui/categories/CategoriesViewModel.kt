@@ -21,5 +21,6 @@ constructor(repo: Repo, apiRequestManager: ApiRequestManager) : BaseViewModel<Re
     val catalogLiveData: LiveData<ViewState<GetCatalogResponse>>
         get() = _catalogLiveData
 
-    fun getCatalog(lang:String) = apiRequestManager.requestApi(repo.getCatalog(lang),_catalogLiveData)
+    fun getCatalog() = apiRequestManager.requestApi(repo.getCatalog(),_catalogLiveData)
+    fun saveCategoryId(categoryId:Long) = repo.saveCategoryId(categoryId)
 }

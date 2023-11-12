@@ -29,5 +29,8 @@ data class Product(
     @SerializedName("manufacturer")
     val manufacturer:String?,
     @SerializedName("quantity")
-    val quantity:Int?,
-):Serializable
+    var quantity:Int = 0
+):Serializable{
+    var isLiked = false
+
+}

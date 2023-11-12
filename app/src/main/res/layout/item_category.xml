@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="10dp"
             android:maxLines="2"
-            android:text="@{category.categoryTitle}"
+            android:text="@{category.categoryName}"
             android:textSize="18sp"
             android:gravity="center"
             android:textColor="@color/colorPrimaryDark"
