@@ -9,21 +9,19 @@ Saydalyty app is an application which aids in purchasing medications, cosmetics,
 ![75ea026c-5bda-4c1d-8586-51397fec61f3](https://github.com/khaledhesham2023/Pharmacy/assets/95777100/33d859ee-4a9c-44a4-9604-dcd1380b39bd)
 ## Tools
 ### Frontend Development:
-1. IDE: Android Studio
-2. Programming Language: Kotlin
-3. Framework: Android
-4. Retrofit
-5. RxJava
-6. Glide
-7. ConstraintLayout
-8. RecyclerView
-9. Navigation Component
-10. MVVM
-11. Google Maps
+1. Programming Language: Kotlin
+2. Framework: Android
+3. Retrofit
+4. RxJava
+5. Glide
+6. ConstraintLayout
+7. RecyclerView
+8. Navigation Component
+9. MVVM
+10. Google Maps
 ### Backend Development: https://github.com/khaledhesham2023/Pharmacy-backend
-1. IDE: Intellij IDEA
-2. Programming Language: Java
-3. Framework: Spring-Boot
+1. Programming Language: Java
+2. Framework: Spring-Boot
 ### Database:
 1. IDE: MySQL Server
 2. Programming Language: SQL Query Language
